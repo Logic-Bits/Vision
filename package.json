@@ -1,0 +1,19 @@
+{
+  "name": "vision",
+  "version": "1.0.0",
+  "description": "Front to Back Quality Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Logic-Bits/Vision.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Logic-Bits/Vision/issues"
+  },
+  "homepage": "https://github.com/Logic-Bits/Vision#readme"
+}
