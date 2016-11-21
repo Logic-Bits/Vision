@@ -7,12 +7,14 @@ Install NodeJs --> https://nodejs.org/en/
 Install MEAN Framework via NodeJs (npm -install -g mean-cli)
 Install Gulp (npm -install -g gulp)
 Install Bower (npm -install -g bower)
+Install MongoDB
 ```
 
 Now it time to start it up
 ```
 run npm install from project folder
 run node server.js
+run mongod (in different CMD)
 browse  to: http://localhost:3000
 ```
 
