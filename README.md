@@ -8,3 +8,14 @@ Install MEAN Framework via NodeJs (npm -install -g mean-cli)
 Install Gulp (npm -install -g gulp)
 Install Bower (npm -install -g bower)
 ```
+
+Now it time to start it up
+```
+run npm install from project folder
+run node server.js
+browse  to: http://localhost:3000
+```
+
+
+for more info about the startup project visit:
+http://jasonwatmore.com/post/2015/12/09/mean-stack-user-registration-and-login-example-tutorial
