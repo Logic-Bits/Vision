@@ -14,7 +14,7 @@ Now it time to start it up
 ```
 run npm install from project folder
 run node server.js
-run mongod (in different CMD)
+run mongod (in different CMD, if you have only low storage available use option --smallfiles)
 browse  to: http://localhost:3000
 ```
 
