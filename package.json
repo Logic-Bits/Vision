@@ -4,7 +4,7 @@
     "description": "MEAN Stack User Registration and Login Example Application",
     "repository": {
         "type": "git",
-        "url": "https://github.com/cornflourblue/mean-stack-registration-login-example.git"
+        "url": "https://github.com/Logic-Bits/Vision.git"
     },
     "dependencies": {
         "bcryptjs": "^2.1.0",
