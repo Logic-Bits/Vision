@@ -18,6 +18,13 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'home' }
             })
+            .state('requirements', {
+                    url: '/requirements',
+                    templateUrl: 'qm/requirements.html',
+                    controller: 'Qm.requirementsController',
+                    controllerAs: 'vm',
+                    data: { activeTab: 'requirements' }
+                })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.html',
