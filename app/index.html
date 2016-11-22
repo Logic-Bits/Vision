@@ -12,8 +12,11 @@
     <header>
         <ul class="nav nav-tabs">
             <li ng-class="{active: activeTab === 'home'}"><a ui-sref="home">Home</a></li>
-            <li ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
-            <li><a href="/login" target="_self">Logout</a></li>
+            <li ng-class="{active: activeTab === 'requirements'}"><a ui-sref="requirements">Requirements</a></li>
+            <li ng-class="{active: activeTab === 'testspecification'}"><a ui-sref="testspecification">Test Specification</a></li>
+            <li ng-class="{active: activeTab === 'usecases'}"><a ui-sref="usecases">Use Cases</a></li>
+            <li class="pull-right"><a href="/login" target="_self">Logout</a></li>  
+            <li class="pull-right" ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
         </ul>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
