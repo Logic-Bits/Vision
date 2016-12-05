@@ -1,0 +1,78 @@
+<br/>
+<br/>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Create Use Case</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="form-container">
+        <form method="post">
+            <div class="form-group">
+                <label for="firstName">Use Case Name</label>
+                <input type="text" id="usecasename" class="form-control" ng-model="vm.usecase.usecasename" required />
+            </div>
+            <div class="form-group">
+                <label for="lastName">Category</label>
+                <input type="text" id="category" class="form-control" ng-model="vm.requirement.category" required />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="vm.saveUseCase()">Save</button>
+                <button type="reset" class="btn btn-danger">Reset</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+</div>
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+
+
+    <h3 class="panel-title">Use Cases</h3>
+
+    </br>
+
+    <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for Use Case (# or name)...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Search</button>
+          </span>
+    </div><!-- /input-group -->
+
+  </div>
+  <div class="panel-body">
+
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Test Specs</th>
+        <th>Use Cases</th>
+        <th>Functions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+        <td><i class="fa fa-pencil fa-fw"></i></td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td>mary@example.com</td>
+        <td>Test</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td>july@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>
+</div>

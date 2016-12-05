@@ -18,6 +18,13 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'home' }
             })
+            .state('usecases', {
+                    url: '/usecases',
+                    templateUrl: 'qm/usecases.html',
+                    controller: 'Qm.UseCasesController',
+                    controllerAs: 'vm',
+                    data: { activeTab: 'usecase' }
+                })
             .state('requirements', {
                     url: '/requirements',
                     templateUrl: 'qm/requirements.html',
