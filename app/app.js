@@ -23,12 +23,12 @@
                     templateUrl: 'qm/usecases.html',
                     controller: 'Qm.UseCasesController',
                     controllerAs: 'vm',
-                    data: { activeTab: 'usecase' }
+                    data: { activeTab: 'usecases' }
                 })
             .state('requirements', {
                     url: '/requirements',
                     templateUrl: 'qm/requirements.html',
-                    controller: 'Qm.requirementsController',
+                    controller: 'Qm.RequirementsController',
                     controllerAs: 'vm',
                     data: { activeTab: 'requirements' }
                 })

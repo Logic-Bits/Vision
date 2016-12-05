@@ -16,16 +16,6 @@
             //     vm.user = user;
             // });
         }
-
-        function saveRequirement() {
-            UseCaseService.Update(vm.usecase)
-                .then(function () {
-                    FlashService.Success('User updated');
-                })
-                .catch(function (error) {
-                    FlashService.Error(error);
-                });
-        }
     }
 
 })();
