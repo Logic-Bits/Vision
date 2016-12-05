@@ -14,10 +14,10 @@
             </div>
             <div class="form-group">
                 <label for="lastName">Category</label>
-                <input type="text" id="category" class="form-control" ng-model="vm.requirement.category" required />
+                <input type="text" id="category" class="form-control" ng-model="vm.usecase.category" required />
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" ng-click="vm.saveUseCase()">Save</button>
+                <button class="btn btn-primary" ng-click="vm.createUseCase()">Save</button>
                 <button type="reset" class="btn btn-danger">Reset</button>
             </div>
         </form>
@@ -44,6 +44,29 @@
   </div>
   <div class="panel-body">
 
+    <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Use Case</th>
+        <th>Category</th>
+        <th>Test Specs</th>
+        <th>Use Cases</th>
+        <th>Functions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in vm.usecases">
+    		<td>{{row.usecasename}}</td>
+    		<td>{{row.category}}</td>
+    		<td>{{row.birthDate}}</td>
+    		<td>{{row.balance}}</td>
+    		<td>{{row.email}}</td>
+	     </tr>
+    </tbody>
+  </table>
+
+
+<!--
     <table class="table table-hover">
     <thead>
       <tr>
@@ -73,7 +96,7 @@
       </tr>
     </tbody>
   </table>
-
+-->
 
 </div>
 </div>
