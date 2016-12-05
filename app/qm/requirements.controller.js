@@ -1,15 +1,12 @@
-﻿(function () {
+(function () {
     'use strict';
 
     angular
         .module('app')
-        .controller('Qm.Requirementsontroller', Controller);
+        .controller('Qm.RequirementsController', Controller);
 
-    function Controller($window, RequirementsService, FlashService) {
+    function Controller() {
         var vm = this;
-
-        vm.requirement.requirementname = 'test';
-        vm.requirement.category = null;
 
         initController();
 
