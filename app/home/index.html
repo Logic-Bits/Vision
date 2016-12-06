@@ -1,1 +1,146 @@
 ﻿<h1>Hi {{vm.user.firstName}}!!</h1>
+
+
+
+<div class="container bootcards-container">
+  <div class="row">
+    <div class="bootcards-cards">
+      <div class="col-sm-6">
+
+        <div class="panel panel-default bootcards-summary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Your Stats for your Project</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-file"></i>
+                  <h4>Use Cases <span class="label label-info">432</span></h4>
+                </a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-gear"></i>
+                  <h4>Function Specifications <span class="label label-info">98</span></h4>
+                </a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-paint-brush"></i>
+                  <h4>Design Specifications <span class="label label-info">98</span></h4>
+                </a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-clipboard"></i>
+                  <h4>Notes <span class="label label-info">54</span></h4>
+                </a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-files-o"></i>
+                  <h4>Files <span class="label label-info">65</span></h4>
+                </a>
+              </div>
+              <div class="col-xs-6 col-sm-4">
+                <a class="bootcards-summary-item" href="#">
+                  <i class="fa fa-3x fa-check-square-o"></i>
+                  <h4>Tasks <span class="label label-warning">109</span></h4>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <small>Your personal Statistics provided by batman</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div>
+
+          <div class="panel panel-default bootcards-chart">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">Recent Changes</h3>
+            </div>
+
+            <div>
+
+              <div class="bootcards-list">
+                <div class="panel panel-default">
+                  <div class="list-group">
+                    <a class="list-group-item" href="#">
+                      <img src="/images/Sofia Acey.jpg" class="img-rounded pull-left"/>
+                      <h4 class="list-group-item-heading">Acey, Sofia</h4>
+                      <p class="list-group-item-text">Masung Corp.</p>
+                    </a>
+                    <a class="list-group-item" href="#">
+                      <img src="/images/Joseph Barish.jpg" class="img-rounded pull-left"/>
+                      <h4 class="list-group-item-heading">Barish, Joseph</h4>
+                      <p class="list-group-item-text">Masung Corp.</p>
+                    </a>
+                    <a class="list-group-item" href="#">
+                      <img src="/images/Sarah Benson.jpg" class="img-rounded pull-left"/>
+                      <h4 class="list-group-item-heading">Benson, Sarah</h4>
+                      <p class="list-group-item-text">ZetaComm</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-footer">
+                <button class="btn btn-default btn-block"
+                  onClick="toggleChartData()">
+                  <i class="fa fa-table"></i>Show More...</button>
+              </div>
+            </div>
+
+            <div class="panel-footer">
+              <small class="pull-left">Built with Bootcards - Chart Card</small>
+            </div>
+
+          </div>
+
+          <!-- Table Card data -->
+          <div class="panel panel-default bootcards-table" style="display:none">
+            <div class="panel-heading">
+              <h3 class="panel-title">Closed sales by team member - $000s (December)</h3>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr class="active"><th>Name</th><th>Sales value</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Guy Bardsley</td><td>550</td></tr>
+                <tr><td>Adam Callahan</td><td>1500</td></tr>
+                <tr><td>Arlo Geist</td><td>3750</td></tr>
+                <tr><td>Sheila Hutchins</td><td>3500</td></tr>
+                <tr><td>Jeanette Quijano</td><td>1250</td></tr>
+                <tr><td>Simon Sweet</td><td>5250</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>15800</strong></td></tr>
+              </tbody>
+            </table>
+            <div class="panel-footer">
+              <button class="btn btn-default btn-block" onClick="toggleChartData()">
+                <i class="fa fa-bar-chart-o"></i>Show Chart
+              </button>
+            </div>
+            <div class="panel-footer">
+              <small class="pull-left">Built with Bootcards - Table Card</small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
