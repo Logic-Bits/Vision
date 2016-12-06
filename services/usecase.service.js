@@ -21,24 +21,21 @@ function getAll()
 {
     var deferred = Q.defer();
 
+    var entries = [];
 
-    db.usecases.find({}, function(err, result) {
-        result.each(function(err, band) {
-            console.log(band);
-        });
+    db.usecases.find().toArray(function(err, result) {
 
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (result) {
             deferred.resolve(result);
-            //return result;
+            //return entries;
         } else {
             deferred.resolve();
         }
-            return result;
     });
 
-    //return deferred.promise;
+    return deferred.promise;
 }
 
 function getById(_id) {

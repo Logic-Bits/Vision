@@ -38,27 +38,23 @@ function getUseCase(req, res) {
 
 function getUseCases(req, res) {
 
-  var all = ucService.getAll();
-  console.log(all);
 
-  res.send(all);
-  return all;
+  ucService.getAll()
+      .then(function (uc) {
 
-    // ucService.getAll()
-    //     .then(function (uc) {
-    //         if (uc) {
-    //             console.log("result ok");
-    //             res.send(uc);
-    //         } else {
-    //             console.log("result not ok");
-    //             res.sendStatus(404);
-    //         }
-    //     })
-    //     .catch(function (err) {
-    //
-    //         console.log("catch ");
-    //         res.status(400).send(err);
-    //     });
+          if (uc) {
+              console.log("result ok");
+              res.send(uc);
+          } else {
+              console.log("result not ok");
+              res.sendStatus(404);
+          }
+      })
+      .catch(function (err) {
+
+          console.log("catch ");
+          res.status(400).send(err);
+      });
 }
 function deleteUseCase(req, res) {
     var userId = req.user.sub;
