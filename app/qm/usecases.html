@@ -10,11 +10,11 @@
         <form method="post">
             <div class="form-group">
                 <label for="firstName">Use Case Name</label>
-                <input type="text" id="usecasename" class="form-control" ng-model="vm.usecase.usecasename" placeholder="Name of Use Case" required />
+                <input type="text" id="usecasename" class="form-control" ng-model="vm.newusecase.usecasename" placeholder="Name of Use Case" required />
             </div>
             <div class="form-group">
                 <label for="lastName">Category</label>
-                <input type="text" id="category" class="form-control" placeholder="Category Name" ng-model="vm.usecase.category" required />
+                <input type="text" id="category" class="form-control" placeholder="Category Name" ng-model="vm.newusecase.category" required />
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" ng-click="vm.createUseCase()">Save</button>
@@ -26,6 +26,96 @@
 </div>
 </div>
 
+<div class="container bootcards-container">
+  <div class="row">
+    <div class="col-sm-6 bootcards-list" id="list" data-title="Use Cases">
+      <div class="panel panel-default">
+        <div class="panel-body">
+						<div class="search-form">
+							<div class="row">
+							    <div class="col-xs-9">
+							      <div class="form-group">
+								      <input type="text" class="form-control" placeholder="Search Use Cases...">
+								      <i class="fa fa-search"></i>
+							      </div>
+							    </div>
+							    <div class="col-xs-3">
+									<a class="btn btn-primary btn-block" href="/companies/add" data-toggle="modal" data-target="#editModal">
+										<i class="fa fa-plus"></i>
+										<span>Add</span>
+									</a>
+							    </div>
+							</div>
+						</div>
+					</div>
+        <div class="list-group">
+
+          <div ng-repeat="uc in vm.usecases">
+						<a class="list-group-item pjax" ng-click="vm.select(uc)" >
+
+							<div class="row">
+								<div class="col-sm-6">
+									<i class="fa fa-3x fa-building-o pull-left"></i>
+									<h4 class="list-group-item-heading">{{uc.usecasename}}</h4>
+									<p class="list-group-item-text"><b>Category: </b> {{uc.category}}</p>
+								</div>
+								<div class="col-sm-6">
+									<p class="list-group-item-text">Customer Type</p>
+									<p class="list-group-item-text">$35,000 Revenue YTD</p>
+								</div>
+							</div>
+
+						</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 bootcards-cards" id="listDetails">
+      <div id="companyCard">
+
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Use Case Details Details</h3>
+      			<div class="btn-group pull-right visible-xs">
+      				<a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
+      					<i class="fa fa-pencil"></i>
+      					<span>Edit</span>
+      				</a>
+      			</div>
+      			<a class="btn btn-primary pull-right hidden-xs" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
+      				<i class="fa fa-pencil"></i>
+      				<span>Edit</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+      			<div class="list-group-item">
+      				<i class="fa fa-2x fa-building-o pull-left"></i>
+      				<label>Name</label>
+      				<h4 class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
+      			</div>
+      			<div class="list-group-item">
+      				<label>Category</label>
+      				<h4 class="list-group-item-heading">{{vm.usecase.category}}</h4>
+      			</div>
+      			<div class="list-group-item">
+      				<label>ID</label>
+      				<h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
+      			</div>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-left">Some more Text right here</small>
+      			<a class="btn btn-link btn-xs pull-right" href="/snippets/base-card-form" data-toggle="modal" data-target="#docsModal">
+      							Link</a>
+      		</div>
+      	</div>
+
+</div>
+    </div>
+  </div>
+</div>
+
+<!--
 <div class="panel panel-success">
   <div class="panel-heading">
 
@@ -39,7 +129,7 @@
           <span class="input-group-btn">
             <button class="btn btn-default" type="button">Search</button>
           </span>
-    </div><!-- /input-group -->
+    </div>
 
   </div>
   <div class="panel-body">
@@ -64,40 +154,6 @@
 	     </tr>
     </tbody>
   </table>
-
-	
-
-<!--
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Use Case</th>
-        <th>Test Specs</th>
-        <th>Use Cases</th>
-        <th>Functions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-        <td><i class="fa fa-pencil fa-fw"></i></td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-        <td>Test</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-      </tr>
-    </tbody>
-  </table>
 -->
-
 </div>
 </div>

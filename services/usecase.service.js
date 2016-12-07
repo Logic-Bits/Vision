@@ -41,6 +41,8 @@ function getAll()
 function getById(_id) {
     var deferred = Q.defer();
 
+    console.log("getting usecase from DB with ID: " + _id);
+
     db.usecases.findById(_id, function (err, usecase) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 

@@ -7,7 +7,8 @@ var ucService = require('services/usecase.service');
 router.post('/create', createUseCase);
 //router.get('/current', getCurrentUser);
 //router.put('/:_id', updateUseCase);
-router.get('/', getUseCases)
+router.get('/:_id', getUseCase);
+router.get('/', getUseCases);
 router.delete('/:_id', deleteUseCase);
 
 module.exports = router;
@@ -23,7 +24,7 @@ function createUseCase(req, res) {
 }
 
 function getUseCase(req, res) {
-    ucService.getById(req.usecase.sub)
+    ucService.getById(req.params._id)
         .then(function (uc) {
             if (uc) {
                 res.send(uc);

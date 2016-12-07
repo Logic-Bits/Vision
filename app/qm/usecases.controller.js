@@ -36,7 +36,7 @@
         }
 
         function createUseCase() {
-          UseCaseService.Create(vm.usecase)
+          UseCaseService.Create(vm.newusecase)
               .then(function () {
                   FlashService.Success('Use Case created');
                   //todo refresh
@@ -45,14 +45,14 @@
                   FlashService.Error(error);
               });
         }
-      
+
         function select(usecase){
           console.log("Clicked");
           UseCaseService.GetById(usecase._id).then(function(uc){
             vm.usecase = uc;
           });
         }
-      
+
 
     }
 
