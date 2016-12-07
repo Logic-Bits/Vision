@@ -10,6 +10,7 @@
         vm.usecase = null;
         vm.createUseCase = createUseCase;
         vm.updateUseCase= updateUseCase;
+        vm.select = select;
 
         initController();
 
@@ -34,8 +35,7 @@
                 });
         }
 
-        function createUseCase()
-        {
+        function createUseCase() {
           UseCaseService.Create(vm.usecase)
               .then(function () {
                   FlashService.Success('Use Case created');
@@ -45,6 +45,14 @@
                   FlashService.Error(error);
               });
         }
+      
+        function select(usecase){
+          console.log("Clicked");
+          UseCaseService.GetById(usecase._id).then(function(uc){
+            vm.usecase = uc;
+          });
+        }
+      
 
     }
 
