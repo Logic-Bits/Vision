@@ -1,7 +1,7 @@
 {
-    "name": "mean-stack-registration-login-example",
+    "name": "Vision",
     "version": "1.0.0",
-    "description": "MEAN Stack User Registration and Login Example Application",
+    "description": "Vision QM System",
     "repository": {
         "type": "git",
         "url": "https://github.com/Logic-Bits/Vision.git"
@@ -13,8 +13,11 @@
         "express": "^4.13.0",
         "express-jwt": "^3.0.1",
         "express-session": "^1.11.3",
+        "express-hbs": "~0.7.8",
+        "express-pjax": "0.0.1",
         "jsonwebtoken": "^5.0.2",
         "lodash": "^3.10.0",
+        "moment": "~2.5.1",
         "mongodb": "^2.1.16",
         "mongoskin": "^2.1.0",
         "mongoose": "^4.6.8",
