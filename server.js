@@ -24,8 +24,8 @@ app.use(pjax());
 app.use(function(req, res, next){
 
 	var ua = req.headers['user-agent'];
-	req.session.isAndroid = (ua.match(/Android/i) != null);
-	req.session.isIos = (ua.match(/iPhone|iPad|iPod/i) != null);
+	req.session.isAndroid = false; // (ua.match(/Android/i) != null);
+	req.session.isIos = false; // (ua.match(/iPhone|iPad|iPod/i) != null);
 	req.session.isDev = (process.env.NODE_ENV !='production');
 	req.session.test = (process.env.NODE_ENV);
 
