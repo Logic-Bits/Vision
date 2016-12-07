@@ -51,7 +51,7 @@
         <div class="list-group">
 
           <div ng-repeat="uc in vm.usecases">
-						<a class="list-group-item pjax" ng-click="vm.select(uc)" >
+						<a class="list-group-item pjax" ng-class="{'active': vm.usecase._id==uc._id}" ng-click="vm.select(uc)" id="container_{{uc._id}}">
 
 							<div class="row">
 								<div class="col-sm-6">
