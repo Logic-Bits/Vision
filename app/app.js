@@ -2,9 +2,11 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router'])
+        .module('app', ['ui.router', 'content-editable'])
         .config(config)
         .run(run);
+
+    //angular.module('app', ["content-editable"]);
 
     function config($stateProvider, $urlRouterProvider) {
         // default route
