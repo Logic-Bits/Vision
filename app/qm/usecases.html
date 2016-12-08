@@ -57,7 +57,7 @@
 								<div class="col-sm-6">
 									<i class="fa fa-3x fa-building-o pull-left"></i>
 									<h4 class="list-group-item-heading">{{uc.usecasename}}</h4>
-									<p class="list-group-item-text"><b>Category: </b> {{uc.category}}</p>
+									<p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
 								</div>
 								<div class="col-sm-6">
 									<p class="list-group-item-text">Customer Type</p>
@@ -92,11 +92,11 @@
       			<div class="list-group-item">
       				<i class="fa fa-2x fa-building-o pull-left"></i>
       				<label>Name</label>
-      				<h4 contenteditable class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
+      				<h4 class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
       			</div>
       			<div class="list-group-item">
       				<label>Category</label>
-      				<h4 contenteditable class="list-group-item-heading">{{vm.usecase.category}}</h4>
+      				<h4 contenteditable ng-binding ng-model="vm.usecase.category" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.category}}</h4>
       			</div>
       			<div class="list-group-item">
       				<label>ID</label>

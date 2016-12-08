@@ -15,13 +15,15 @@
         initController();
 
         function initController() {
-            // get current user
-            // RequirementsService.GetCurrent().then(function (user) {
-            //     vm.user = user;
-            // });
-
             UseCaseService.GetAll().then(function (ucs){
                   vm.usecases = ucs;
+
+                  console.log("found usecases: " + vm.usecases.length);
+
+                  if(vm.usecases.length > 0)
+                  {
+                    vm.usecase = vm.usecases[0];
+                  }
             });
         }
 

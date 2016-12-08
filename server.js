@@ -45,6 +45,8 @@ app.use('/app', require('./controllers/app.controller'));
 app.use('/api/users', require('./controllers/api/users.controller'));
 app.use('/api/usecases', require('./controllers/api/usecases.controller'));
 
+app.use('/app/js', express.static('./node_modules/ng-content-editable/dist'));
+
 // make '/app' default route
 app.get('/', function (req, res) {
     return res.redirect('/app');
