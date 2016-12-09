@@ -117,6 +117,7 @@ function update(_id, userParam) {
       });
 
       return deferred.promise;
+};
 
 function _delete(_id) {
     var deferred = Q.defer();
