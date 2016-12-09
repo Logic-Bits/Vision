@@ -75,3 +75,15 @@ function deleteUseCase(req, res) {
             res.status(400).send(err);
         });
 }
+
+function updateUseCase(req, res) {
+    var userId = req.params._id;
+
+    ucService.update(userId, req.body)
+        .then(function () {
+            res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}

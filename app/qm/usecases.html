@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="col-sm-6 bootcards-cards" id="listDetails">
-      <div id="companyCard">
+      <div id="usecaseCard">
 
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
@@ -83,7 +83,7 @@
       					<span>Edit</span>
       				</a>
       			</div>
-      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(uc)">
+      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
       				<i class="fa fa-save"></i>
       				<span>Save</span>
       			</a>
@@ -92,7 +92,7 @@
       			<div class="list-group-item">
       				<i class="fa fa-2x fa-building-o pull-left"></i>
       				<label>Name</label>
-      				<h4 class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
+      				<h4 contenteditable ng-binding ng-model="vm.usecase.usecasename" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
       			</div>
       			<div class="list-group-item">
       				<label>Category</label>
@@ -102,11 +102,16 @@
       				<label>ID</label>
       				<h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
       			</div>
+      			<div class="list-group-item">
+      				<label>Number</label>
+      				<h4 class="list-group-item-heading">{{vm.usecase.number}}</h4>
+      			</div>
       		</div>
       		<div class="panel-footer">
-      			<small class="pull-left">Some more Text right here</small>
-      			<a class="btn btn-link btn-xs pull-right" href="/snippets/base-card-form" data-toggle="modal" data-target="#docsModal">
-      							Link</a>
+      			<small class="pull-left">Be carefull when deleting visionised entries!</small>
+      			<a class="btn btn-link btn-xs pull-right text-success" data-toggle="modal" data-target="#confirm-delete"> <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
+      			     <span class="text-danger ">Delete</span>
+            </a>
       		</div>
       	</div>
 
@@ -116,44 +121,27 @@
 </div>
 
 <!--
-<div class="panel panel-success">
-  <div class="panel-heading">
-
-
-    <h3 class="panel-title">Use Cases</h3>
-
-    </br>
-
-    <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for Use Case (# or name)...">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Search</button>
-          </span>
-    </div>
-
-  </div>
-  <div class="panel-body">
-
-    <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th>Use Case</th>
-        <th>Category</th>
-        <th>Test Specs</th>
-        <th>Use Cases</th>
-        <th>Functions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="row in vm.usecases" ng-click="vm.select(row)">
-    		<td>{{row.usecasename}}</td>
-    		<td>{{row.category}}</td>
-    		<td>{{row.birthDate}}</td>
-    		<td>{{row.balance}}</td>
-    		<td>{{row.email}}</td>
-	     </tr>
-    </tbody>
-  </table>
+Modals
 -->
-</div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>You are about to delete one track, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok" ng-click="vm.deleteUseCase(vm.usecase)">Delete</a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -71,11 +71,11 @@ function create(userParam) {
                 // username already exists
                 deferred.reject('usecase "' + userParam.usecasename + '" is already taken');
             } else {
-                createUser();
+                createUseCase();
             }
         });
 
-    function createUser() {
+    function createUseCase() {
         // set user object to userParam without the cleartext password
         var usecase = _.omit(userParam, 'password');
 
@@ -98,7 +98,7 @@ function update(_id, userParam) {
     var deferred = Q.defer();
     // fields to update
     var set = {
-        firstName: userParam.usecasename,
+        usecasename: userParam.usecasename,
         category: userParam.category,
     };
 
