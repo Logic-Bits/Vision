@@ -11,7 +11,7 @@ var service = {};
 
 service.getById = getById;
 service.create = create;
-//service.update = update;
+service.update = update;
 service.delete = _delete;
 service.getAll = getAll;
 
@@ -93,6 +93,30 @@ function create(userParam) {
 
     return deferred.promise;
 }
+
+function update(_id, userParam) {
+    var deferred = Q.defer();
+    // fields to update
+    var set = {
+        firstName: userParam.usecasename,
+        category: userParam.category,
+    };
+
+    // // update password if it was entered
+    // if (userParam.password) {
+    //     set.hash = bcrypt.hashSync(userParam.password, 10);
+    // }
+
+    db.usecases.update(
+        { _id: mongo.helper.toObjectID(_id) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+
+            deferred.resolve();
+      });
+
+      return deferred.promise;
 
 function _delete(_id) {
     var deferred = Q.defer();

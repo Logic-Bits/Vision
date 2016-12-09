@@ -6,7 +6,7 @@ var ucService = require('services/usecase.service');
 // routes
 router.post('/create', createUseCase);
 //router.get('/current', getCurrentUser);
-//router.put('/:_id', updateUseCase);
+router.put('/:_id', updateUseCase);
 router.get('/:_id', getUseCase);
 router.get('/', getUseCases);
 router.delete('/:_id', deleteUseCase);
@@ -57,6 +57,7 @@ function getUseCases(req, res) {
           res.status(400).send(err);
       });
 }
+
 function deleteUseCase(req, res) {
     var userId = req.user.sub;
     var ucId = req.params._id;
