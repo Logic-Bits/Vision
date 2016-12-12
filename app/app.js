@@ -34,6 +34,13 @@
                     controllerAs: 'vm',
                     data: { activeTab: 'requirements' }
                 })
+            .state('settings', {
+                    url: '/settings',
+                    templateUrl: 'settings/settings.html',
+                    controller: 'Settings.SettingsController',
+                    controllerAs: 'vm',
+                    data: { activeTab: 'settings' }
+                })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.html',

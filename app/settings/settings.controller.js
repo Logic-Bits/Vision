@@ -1,16 +1,16 @@
-﻿(function () {
+(function () {
     'use strict';
 
     angular
         .module('app')
-        .controller('Account.IndexController', Controller);
+        .controller('Settings.SettingsController', Controller);
 
-    function Controller($window, UserService, FlashService) {
+    function Controller($window, SettingsService, FlashService) {
         var vm = this;
 
         vm.user = null;
-        vm.saveUser = saveUser;
-        vm.deleteUser = deleteUser;
+        vm.deleteUseCases = deleteUseCases;
+        vm.resetUseCaseCounter = resetUseCaseCounter;
 
         initController();
 
@@ -19,16 +19,6 @@
             UserService.GetCurrent().then(function (user) {
                 vm.user = user;
             });
-        }
-
-        function saveUser() {
-            UserService.Update(vm.user)
-                .then(function () {
-                    FlashService.Success('User updated');
-                })
-                .catch(function (error) {
-                    FlashService.Error(error);
-                });
         }
 
         function deleteUser() {
