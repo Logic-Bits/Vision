@@ -42,8 +42,8 @@ app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/user
 app.use('/login', require('./controllers/login.controller'));
 app.use('/register', require('./controllers/register.controller'));
 app.use('/app', require('./controllers/app.controller'));
-app.use('/api/users', require('./controllers/api/users.controller'));
-app.use('/api/usecases', require('./controllers/api/usecases.controller'));
+app.use('/api/users', require('./controllers/api/users.api.controller'));
+app.use('/api/usecases', require('./controllers/api/usecases.api.controller'));
 
 app.use('/app/js', express.static('./node_modules/ng-content-editable/dist'));
 

@@ -1,7 +1,7 @@
 var config = require('config.json');
 var express = require('express');
 var router = express.Router();
-var ucService = require('services/usecase.service');
+var ucService = require('services/usecase.db.service');
 
 // routes
 router.post('/create', createUseCase);
