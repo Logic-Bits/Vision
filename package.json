@@ -19,6 +19,7 @@
         "lodash": "^3.10.0",
         "moment": "~2.5.1",
         "mongodb": "^2.1.16",
+        "mongodb-counter": "^0.0.4",
         "mongoskin": "^2.1.0",
         "mongoose": "^4.6.8",
         "ng-content-editable": "^0.0.2",

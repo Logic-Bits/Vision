@@ -5,7 +5,9 @@ var bcrypt = require('bcryptjs');
 var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
+//var counters = require('mongodb-counter').createCounters({mongoUrl: config.connectionString, collectionName: 'usecases.counter'});
 db.bind('usecases');
+//counters.bind('counters');
 
 var service = {};
 
@@ -16,6 +18,8 @@ service.delete = _delete;
 service.getAll = getAll;
 
 module.exports = service;
+
+
 
 function getAll()
 {
@@ -78,6 +82,16 @@ function create(userParam) {
     function createUseCase() {
         // set user object to userParam without the cleartext password
         var usecase = _.omit(userParam, 'password');
+        
+        // db.counters.insert(
+        //    {
+        //       _id: "usecases-hid",
+        //       seq: 1
+        //    }
+        // )
+        //
+        // usecase.hid = getNextSequence("usecases-hid");
+        // console.log("------- new ID: " + usecase.hid);
 
         // add hashed password to user object
         //user.hash = bcrypt.hashSync(userParam.password, 10);
@@ -92,6 +106,18 @@ function create(userParam) {
     }
 
     return deferred.promise;
+}
+
+function getNextSequence(name) {
+   var ret = db.counters.findAndModify(
+          {
+            query: { _id: name },
+            update: { $inc: { seq: 1 } },
+            new: true
+          }
+   );
+
+   return ret.seq;
 }
 
 function update(_id, userParam) {
