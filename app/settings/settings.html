@@ -1,6 +1,6 @@
 <div class="panel panel-warning">
   <div class="panel-heading">
-      <h3>User Settings</h3>
+      <h3>User Settings - {{vm.user.username}}</h3>
   </div>
       TBD
   </div>
@@ -10,6 +10,6 @@
   <div class="panel-heading">
       <h3>Admin Area (dont dont if you dont know what to do!)</h3>
   </div>
-      <button type="button" ng-click="deleteUseCases()" class="btn btn-danger">Delete all Use Cases</button>
+      <button type="button" ng-click="vm.deleteUseCases()" class="btn btn-danger">Delete all Use Cases</button>
       <button type="button" ng-click="resetUseCasesCounter()" class="btn btn-danger">Reset Use Cases counter</button>
 </div>

@@ -15,6 +15,7 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.DeleteAll = DeleteAll;
 
         return service;
 
@@ -46,6 +47,10 @@
             return $http.delete('/api/usecases/' + _id).then(handleSuccess, handleError);
         }
 
+        function DeleteAll(user) {
+          //no ID needed, cldnt figure out how to do it else right now. Redo later
+            return $http.delete('/api/usecases/deleteall/' + user._id).then(handleSuccess, handleError);
+        }
         // private functions
 
         function handleSuccess(res) {

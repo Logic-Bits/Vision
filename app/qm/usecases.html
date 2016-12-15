@@ -71,9 +71,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 bootcards-cards" id="listDetails">
+    <div class="col-sm-6 bootcards-cards" id="listDetails"  ng-class="{'invisible': vm.usecase==null}">
       <div id="usecaseCard">
-
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
       			<h3 class="panel-title pull-left">Use Case Details ({{vm.usecase.hid}})</h3>

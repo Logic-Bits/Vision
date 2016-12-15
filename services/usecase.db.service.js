@@ -15,11 +15,10 @@ service.getById = getById;
 service.create = create;
 service.update = update;
 service.delete = _delete;
+service.deleteAllUseCases = _deleteAllUseCases;
 service.getAll = getAll;
 
 module.exports = service;
-
-
 
 function getAll()
 {
@@ -82,7 +81,7 @@ function create(userParam) {
     function createUseCase() {
         // set user object to userParam without the cleartext password
         var usecase = _.omit(userParam, 'password');
-        
+
         // db.counters.insert(
         //    {
         //       _id: "usecases-hid",
@@ -155,6 +154,21 @@ function _delete(_id) {
 
             deferred.resolve();
         });
+
+    return deferred.promise;
+}
+
+function _deleteAllUseCases(userid) {
+
+    var deferred = Q.defer();
+
+    console.log("deleting usecase from db level");
+
+    db.usecases.remove({},function (err) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        deferred.resolve();
+    });
 
     return deferred.promise;
 }

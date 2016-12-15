@@ -5,7 +5,10 @@
         .module('app')
         .controller('Settings.SettingsController', Controller);
 
-    function Controller($window, SettingsService, FlashService) {
+    function Controller($window, UserService, UseCaseService, FlashService) {
+
+        //var usecasedb = require('services/usecase.db.service');
+
         var vm = this;
 
         vm.user = null;
@@ -34,7 +37,15 @@
 
         function deleteUseCases()
         {
-
+            UseCaseService.DeleteAll(vm.user)
+                .then(function () {
+                    // log user out
+                    //$window.location = '/login';
+                    FlashService.Success("All Usecases are deleted!");
+                })
+                .catch(function (error) {
+                    FlashService.Error(error);
+                });
         }
 
         function resetUseCaseCounter()

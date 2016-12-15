@@ -10,6 +10,7 @@ router.put('/:_id', updateUseCase);
 router.get('/:_id', getUseCase);
 router.get('/', getUseCases);
 router.delete('/:_id', deleteUseCase);
+router.delete('/deleteall/:_id', deleteAllUseCases);
 
 module.exports = router;
 
@@ -44,10 +45,10 @@ function getUseCases(req, res) {
       .then(function (uc) {
 
           if (uc) {
-              console.log("result ok");
+              //console.log("result ok");
               res.send(uc);
           } else {
-              console.log("result not ok");
+              //console.log("result not ok");
               res.sendStatus(404);
           }
       })
@@ -76,6 +77,24 @@ function deleteUseCase(req, res) {
         });
 }
 
+// function deleteUseCase(req, res) {
+//     var userId = req.user.sub;
+//     var ucId = req.params._id;
+//
+//     // if (req.params._id !== userId) {
+//     //     // can only delete own account
+//     //     return res.status(401).send('You can only delete your own account');
+//     // }
+//
+//     ucService.delete(ucId)
+//         .then(function () {
+//             res.sendStatus(200);
+//         })
+//         .catch(function (err) {
+//             res.status(400).send(err);
+//         });
+// }
+
 function updateUseCase(req, res) {
     var userId = req.params._id;
 
@@ -86,4 +105,20 @@ function updateUseCase(req, res) {
         .catch(function (err) {
             res.status(400).send(err);
         });
+}
+
+function deleteAllUseCases(req, res) {
+
+      var userId = req.user.sub;
+      var ucId = req.params._id;
+
+      console.log("User "+ userId+" deleted all Usecases");
+
+      ucService.deleteAllUseCases(userId)
+          .then(function () {
+              res.sendStatus(200);
+          })
+          .catch(function (err) {
+              res.status(400).send(err);
+          });
 }
