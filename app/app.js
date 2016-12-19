@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router', 'content-editable'])
+        .module('app', ['ui.router', 'content-editable', 'ngTagsInput'])
         .config(config)
         .run(run);
 

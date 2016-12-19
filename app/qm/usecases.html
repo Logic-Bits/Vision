@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="lastName">Category</label>
-                <input type="text" id="category" class="form-control" placeholder="Category Name" ng-model="vm.newusecase.category" required />
+                <tags-input ng-model="vm.usecase.categories"></tags-input>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" ng-click="vm.createUseCase()">Save</button>
@@ -22,7 +22,6 @@
             </div>
         </form>
     </div>
-
 </div>
 </div>
 
@@ -55,13 +54,13 @@
 
 							<div class="row">
 								<div class="col-sm-6">
-									<i class="fa fa-3x fa-building-o pull-left"></i>
+									<i class="fa fa-3x fa-file-o pull-left"></i>
 									<h4 class="list-group-item-heading">{{uc.usecasename}}</h4>
 									<p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
 								</div>
 								<div class="col-sm-6">
-									<p class="list-group-item-text">Customer Type</p>
-									<p class="list-group-item-text">$35,000 Revenue YTD</p>
+									<p class="list-group-item-text">Linked Design Specs: 6</p>
+									<p class="list-group-item-text">System Tests: 3</p>
 								</div>
 							</div>
 
@@ -95,7 +94,11 @@
       			</div>
       			<div class="list-group-item">
       				<label>Category</label>
-      				<h4 contenteditable ng-binding ng-model="vm.usecase.category" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.category}}</h4>
+      				<tags-input ng-model="vm.usecase.categories"></tags-input>
+      			</div>
+      			<div class="list-group-item">
+      				<label>Tags</label>
+      				<tags-input ng-model="vm.usecase.tags"></tags-input>
       			</div>
       			<div class="list-group-item">
       				<label>ID</label>
@@ -109,12 +112,53 @@
       		<div class="panel-footer">
       			<small class="pull-left">Be carefull when deleting visionised entries!</small>
       			<a class="btn btn-link btn-xs pull-right text-success" data-toggle="modal" data-target="#confirm-delete"> <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
-      			     <span class="text-danger ">Delete</span>
+      			     <span class="text-danger">Delete</span>
             </a>
       		</div>
       	</div>
-
-</div>
+      </div>
+      <div id="DesignSpecCard">
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Linked <b>Function Specifications</b></h3>
+      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
+      				<i class="fa fa-plus"></i>
+      				<span>Add</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
+									<i class="fa fa-2x pull-left fa-file-text-o"></i>
+									<h4 class="list-group-item-heading">Improved Load Time</h4>
+									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
+						</a>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-right"><a href="">Show all Function Specifications</a></small>
+      		</div>
+      	</div>
+      </div>
+      <div id="UseCaseTestsCard">
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Linked <b>UC Test Specifications</b></h3>
+      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
+      				<i class="fa fa-plus"></i>
+      				<span>Add</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
+									<i class="fa fa-2x pull-left fa-file-text-o"></i>
+									<h4 class="list-group-item-heading">Improved Load Time</h4>
+									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
+						</a>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-right"><a href="">Show all Test Specifications</a></small>
+      		</div>
+      	</div>
+      </div>
     </div>
   </div>
 </div>

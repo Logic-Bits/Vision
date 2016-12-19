@@ -124,7 +124,8 @@ function update(_id, userParam) {
     // fields to update
     var set = {
         usecasename: userParam.usecasename,
-        category: userParam.category,
+        categories: userParam.categories,
+        tags: userParam.tags,
     };
 
     // // update password if it was entered
