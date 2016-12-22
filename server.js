@@ -44,6 +44,7 @@ app.use('/register', require('./controllers/register.controller'));
 app.use('/app', require('./controllers/app.controller'));
 app.use('/api/users', require('./controllers/api/users.api.controller'));
 app.use('/api/usecases', require('./controllers/api/usecases.api.controller'));
+app.use('/api/functions', require('./controllers/api/function.api.controller'));
 
 app.use('/app/js', express.static('./node_modules/ng-content-editable/dist'));
 app.use('/app/tagsinput', express.static('./node_modules/ng-tags-input/build'));

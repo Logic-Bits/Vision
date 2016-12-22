@@ -6,7 +6,7 @@ var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 //var counters = require('mongodb-counter').createCounters({mongoUrl: config.connectionString, collectionName: 'usecases.counter'});
-db.bind('usecases');
+db.bind('fs'); //function specification
 //counters.bind('counters');
 
 var service = {};
@@ -22,11 +22,11 @@ module.exports = service;
 
 function getAll()
 {
+    console.log("getting all Functions");
+
     var deferred = Q.defer();
 
-    var entries = [];
-
-    db.usecases.find().toArray(function(err, result) {
+    db.fs.find().toArray(function(err, result) {
 
         if (err) deferred.reject(err.name + ': ' + err.message);
 
@@ -44,9 +44,9 @@ function getAll()
 function getById(_id) {
     var deferred = Q.defer();
 
-    console.log("getting usecase from DB with ID: " + _id);
+    console.log("getting function from DB with ID: " + _id);
 
-    db.usecases.findById(_id, function (err, usecase) {
+    db.fs.findById(_id, function (err, usecase) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (usecase) {
@@ -65,14 +65,14 @@ function create(userParam) {
     var deferred = Q.defer();
 
     // validation
-    db.usecases.findOne(
-        { usecasename: userParam.usecasename },
+    db.fs.findOne(
+        { functionname: userParam.functionname },
         function (err, usecase) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 
             if (usecase) {
                 // username already exists
-                deferred.reject('usecase "' + userParam.usecasename + '" is already taken');
+                deferred.reject('usecase "' + userParam.functionname + '" is already taken');
             } else {
                 createUseCase();
             }
@@ -80,74 +80,50 @@ function create(userParam) {
 
     function createUseCase() {
         // set user object to userParam without the cleartext password
-          var usecase = _.omit(userParam, 'password');
+        var usecase = _.omit(userParam, 'password');
 
-          //Optimistic Loop for next ID
-          while (1) {
+        // db.counters.insert(
+        //    {
+        //       _id: "usecases-hid",
+        //       seq: 1
+        //    }
+        // )
+        //
+        // usecase.hid = getNextSequence("usecases-hid");
+        // console.log("------- new ID: " + usecase.hid);
 
-            console.log("in while");
+        // add hashed password to user object
+        //user.hash = bcrypt.hashSync(userParam.password, 10);
 
-            var cursor = db.usecases.find( {}, { hid: 1 } ).sort( { hid: -1 } ).limit(1);
+        db.fs.insert(
+            usecase,
+            function (err, doc) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
 
-            console.log("cursor vor hid: " + cursor);
-
-            var seq = cursor.hasNext() ? cursor.next()._id + 1 : 1;
-            usecase.hid = seq;
-            console.log("created new HID:" + seq);
-            //var results = targetCollection.insert(doc);
-            // if( results.hasWriteError() ) {
-            //     if( results.writeError.code == 11000 /* dup key */ )
-            //         continue;
-            //     else
-            //         print( "unexpected error inserting data: " + tojson( results ) );
-            // }
-
-
-            var results = db.usecases.insert(usecase);
-            if(results.hasWriteError()) {
-
-              if(results.writeError.code == 11000 /* dup key */ )
-              {
-                console.log("!!!!!!! duplicated HID in usecase: " + usecase._id);
-                continue;//continue; //return true is like continue in loop
-              }
-              else {
-                deferred.reject(err.name + ': ' + err.message);
-              }
-            }
-            else {
-              deferred.resolve();
-            }
-
-            // db.usecases.insert(
-            //     usecase,
-            //     function (err, doc) {
-            //         if (err)
-            //         {
-            //           if(results.writeError.code == 11000 /* dup key */ )
-            //           {
-            //             console.log("!!!!!!! duplicated HID in usecase: " + usecase._id);
-            //             continue;//continue; //return true is like continue in loop
-            //           }
-            //           deferred.reject(err.name + ': ' + err.message);
-            //         }
-            //
-            //         deferred.resolve();
-            //         break;
-            //     });
-
-            break;
-        }
+                deferred.resolve();
+            });
+    }
 
     return deferred.promise;
-  }
+}
+
+function getNextSequence(name) {
+   var ret = db.counters.findAndModify(
+          {
+            query: { _id: name },
+            update: { $inc: { seq: 1 } },
+            new: true
+          }
+   );
+
+   return ret.seq;
 }
 
 function update(_id, userParam) {
     var deferred = Q.defer();
     // fields to update
     var set = {
-        usecasename: userParam.usecasename,
+        functionname: userParam.usecasename,
         categories: userParam.categories,
         tags: userParam.tags,
     };
@@ -157,7 +133,7 @@ function update(_id, userParam) {
     //     set.hash = bcrypt.hashSync(userParam.password, 10);
     // }
 
-    db.usecases.update(
+    db.fs.update(
         { _id: mongo.helper.toObjectID(_id) },
         { $set: set },
         function (err, doc) {
@@ -172,7 +148,7 @@ function update(_id, userParam) {
 function _delete(_id) {
     var deferred = Q.defer();
 
-    db.usecases.remove(
+    db.fs.remove(
         { _id: mongo.helper.toObjectID(_id) },
         function (err) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -187,9 +163,9 @@ function _deleteAllUseCases(userid) {
 
     var deferred = Q.defer();
 
-    console.log("deleting usecase from db level");
+    console.log("deleting functionspez from db level by user " + userid);
 
-    db.usecases.remove({},function (err) {
+    db.fs.remove({},function (err) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve();

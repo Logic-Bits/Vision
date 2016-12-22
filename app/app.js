@@ -27,12 +27,12 @@
                     controllerAs: 'vm',
                     data: { activeTab: 'usecases' }
                 })
-            .state('requirements', {
-                    url: '/requirements',
-                    templateUrl: 'qm/requirements.html',
-                    controller: 'Qm.RequirementsController',
+            .state('function', {
+                    url: '/function',
+                    templateUrl: 'qm/function.html',
+                    controller: 'Qm.FunctionController',
                     controllerAs: 'vm',
-                    data: { activeTab: 'requirements' }
+                    data: { activeTab: 'function' }
                 })
             .state('settings', {
                     url: '/settings',

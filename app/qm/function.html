@@ -1,0 +1,190 @@
+<br/>
+<br/>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Create Function Spezification</h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="form-container">
+        <form method="post">
+            <div class="form-group">
+                <label for="firstName">Function Name</label>
+                <input type="text" id="functionname" class="form-control" ng-model="vm.newfunctionspez.functionname" placeholder="Name of Function" required />
+            </div>
+            <div class="form-group">
+                <label for="lastName">Category</label>
+                <tags-input ng-model="vm.newfunctionspez.categories"></tags-input>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="vm.createFunction()">Save</button>
+                <button type="reset" class="btn btn-danger">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<div class="container bootcards-container">
+  <div class="row">
+    <div class="col-sm-6 bootcards-list" id="list" data-title="Function Spezifications">
+      <div class="panel panel-default">
+        <div class="panel-body">
+						<div class="search-form">
+							<div class="row">
+							    <div class="col-xs-9">
+							      <div class="form-group">
+								      <input type="text" class="form-control" placeholder="Search Functions...">
+								      <i class="fa fa-search"></i>
+							      </div>
+							    </div>
+							    <div class="col-xs-3">
+									<a class="btn btn-primary btn-block" href="/companies/add" data-toggle="modal" data-target="#editModal">
+										<i class="fa fa-plus"></i>
+										<span>Add</span>
+									</a>
+							    </div>
+							</div>
+						</div>
+					</div>
+        <div class="list-group">
+
+          <div ng-repeat="uc in vm.functionspezs">
+						<a class="list-group-item pjax" ng-class="{'active': vm.functionspez._id==uc._id}" ng-click="vm.select(uc)" id="container_{{uc._id}}">
+
+							<div class="row">
+								<div class="col-sm-6">
+									<i class="fa fa-3x fa-gear pull-left"></i>
+									<h4 class="list-group-item-heading">{{uc.functionname}}</h4>
+									<p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
+								</div>
+								<div class="col-sm-6">
+									<p class="list-group-item-text">Linked Design Specs: 6</p>
+									<p class="list-group-item-text">System Tests: 3</p>
+								</div>
+							</div>
+
+						</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 bootcards-cards" id="listDetails"  ng-class="{'invisible': vm.functionspez==null}">
+      <div id="functionCard">
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Spezification Details ({{vm.functionspez.hid}})</h3>
+      			<div class="btn-group pull-right visible-xs">
+      				<a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
+      					<i class="fa fa-pencil"></i>
+      					<span>Edit</span>
+      				</a>
+      			</div>
+      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateFunction(vm.functionspez)">
+      				<i class="fa fa-save"></i>
+      				<span>Save</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+      			<div class="list-group-item">
+      				<i class="fa fa-2x fa-building-o pull-left"></i>
+      				<label>Name</label>
+      				<h4 contenteditable ng-binding ng-model="vm.functionspez.functionname" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.functionspez.functionname}}</h4>
+      			</div>
+      			<div class="list-group-item">
+      				<label>Category</label>
+      				<tags-input ng-model="vm.functionspez.categories"></tags-input>
+      			</div>
+      			<div class="list-group-item">
+      				<label>Tags</label>
+      				<tags-input ng-model="vm.functionspez.tags"></tags-input>
+      			</div>
+      			<div class="list-group-item">
+      				<label>ID</label>
+      				<h4 class="list-group-item-heading">{{vm.functionspez._id}}</h4>
+      			</div>
+      			<div class="list-group-item">
+      				<label>Number</label>
+      				<h4 class="list-group-item-heading">ID: {{vm.functionspez.hid}}</h4>
+      			</div>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-left">Be carefull when deleting visionised entries!</small>
+      			<a class="btn btn-link btn-xs pull-right text-success" data-toggle="modal" data-target="#confirm-delete"> <!--ng-click="vm.deleteUseCase(vm.functionspez)"-->
+      			     <span class="text-danger">Delete</span>
+            </a>
+      		</div>
+      	</div>
+      </div>
+      <div id="DesignSpecCard">
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Linked <b>Design Specifications</b></h3>
+      			<a class="btn btn-success pull-right hidden-xs">
+      				<i class="fa fa-plus"></i>
+      				<span>Add</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
+									<i class="fa fa-2x pull-left fa-file-text-o"></i>
+									<h4 class="list-group-item-heading">Improved Load Time</h4>
+									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
+						</a>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-right"><a href="">Show all Design Specifications</a></small>
+      		</div>
+      	</div>
+      </div>
+      <div id="FunctionTestsCard">
+      	<div class="panel panel-default">
+      		<div class="panel-heading clearfix">
+      			<h3 class="panel-title pull-left">Linked <b>Function Test Specifications</b></h3>
+      			<a class="btn btn-success pull-right hidden-xs">
+      				<i class="fa fa-plus"></i>
+      				<span>Add</span>
+      			</a>
+      		</div>
+      		<div class="list-group">
+            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
+									<i class="fa fa-2x pull-left fa-file-text-o"></i>
+									<h4 class="list-group-item-heading">Improved Load Time</h4>
+									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
+						</a>
+      		</div>
+      		<div class="panel-footer">
+      			<small class="pull-right"><a href="">Show all Design Specifications</a></small>
+      		</div>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+Modals
+-->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>You are about to delete one track, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok" ng-click="vm.deleteFunction(vm.functionspez)">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
