@@ -59,8 +59,8 @@
 									<p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
 								</div>
 								<div class="col-sm-6">
-									<p class="list-group-item-text">Linked Design Specs: 6</p>
-									<p class="list-group-item-text">System Tests: 3</p>
+									<p class="list-group-item-text">Use Case Number: {{uc.hid}}</p>
+									<p class="list-group-item-text">Linked Function Spez.: 3</p>
 								</div>
 							</div>
 
@@ -74,7 +74,7 @@
       <div id="usecaseCard">
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
-      			<h3 class="panel-title pull-left">Use Case Details ({{vm.usecase.hid}})</h3>
+      			<h3 class="panel-title pull-left">Use Case Details [UC-{{vm.usecase.hid}}]</h3>
       			<div class="btn-group pull-right visible-xs">
       				<a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
       					<i class="fa fa-pencil"></i>
@@ -104,10 +104,10 @@
       				<label>ID</label>
       				<h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
       			</div>
-      			<div class="list-group-item">
+      			<!-- <div class="list-group-item">
       				<label>Number</label>
       				<h4 class="list-group-item-heading">ID: {{vm.usecase.hid}}</h4>
-      			</div>
+      			</div> -->
       		</div>
       		<div class="panel-footer">
       			<small class="pull-left">Be carefull when deleting visionised entries!</small>

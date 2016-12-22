@@ -24,8 +24,6 @@ function getAll()
 {
     var deferred = Q.defer();
 
-    var entries = [];
-
     db.usecases.find().toArray(function(err, result) {
 
         if (err) deferred.reject(err.name + ': ' + err.message);
@@ -82,65 +80,42 @@ function create(userParam) {
         // set user object to userParam without the cleartext password
           var usecase = _.omit(userParam, 'password');
 
-          //Optimistic Loop for next ID
-          while (1) {
+          console.log("in createUseCase");
 
-            console.log("in while");
+            db.usecases.find({}).sort( { hid: -1 } ).limit(1).toArray( function (err, cursor) {
 
-            var cursor = db.usecases.find( {}, { hid: 1 } ).sort( { hid: -1 } ).limit(1);
+                  var myFirstDocument = cursor[0]; //cursor.hasNext() ? cursor.next() : null;
 
-            console.log("cursor vor hid: " + cursor);
+                  var nextHID = -1;
+                  if(myFirstDocument != null && !isNaN(myFirstDocument.hid))
+                  {
+                    //console.log("document is: " + myFirstDocument);
+                    console.log("current last usecase is: " + myFirstDocument.usecasename + " with id: " + myFirstDocument.hid);
+                    nextHID = myFirstDocument.hid + 1;
+                  }
+                  else {
+                    console.log("no number or entry");
+                    nextHID = 1;
+                  }
 
-            var seq = cursor.hasNext() ? cursor.next()._id + 1 : 1;
-            usecase.hid = seq;
-            console.log("created new HID:" + seq);
-            //var results = targetCollection.insert(doc);
-            // if( results.hasWriteError() ) {
-            //     if( results.writeError.code == 11000 /* dup key */ )
-            //         continue;
-            //     else
-            //         print( "unexpected error inserting data: " + tojson( results ) );
-            // }
+                  usecase.hid = nextHID;
+                  console.log("created new HID:" + nextHID);
 
+                  db.usecases.insert(
+                      usecase,
+                      function (err, doc) {
+                          if (err)
+                          {
+                            deferred.reject(err.name + ': ' + err.message);
+                          }
 
-            var results = db.usecases.insert(usecase);
-            if(results.hasWriteError()) {
+                          deferred.resolve();
+                          //break;
+                      });
+                  });
+                }
 
-              if(results.writeError.code == 11000 /* dup key */ )
-              {
-                console.log("!!!!!!! duplicated HID in usecase: " + usecase._id);
-                continue;//continue; //return true is like continue in loop
-              }
-              else {
-                deferred.reject(err.name + ': ' + err.message);
-              }
-            }
-            else {
-              deferred.resolve();
-            }
-
-            // db.usecases.insert(
-            //     usecase,
-            //     function (err, doc) {
-            //         if (err)
-            //         {
-            //           if(results.writeError.code == 11000 /* dup key */ )
-            //           {
-            //             console.log("!!!!!!! duplicated HID in usecase: " + usecase._id);
-            //             continue;//continue; //return true is like continue in loop
-            //           }
-            //           deferred.reject(err.name + ': ' + err.message);
-            //         }
-            //
-            //         deferred.resolve();
-            //         break;
-            //     });
-
-            break;
-        }
-
-    return deferred.promise;
-  }
+      return deferred.promise;
 }
 
 function update(_id, userParam) {
