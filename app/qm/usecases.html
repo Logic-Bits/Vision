@@ -7,11 +7,15 @@
   <div class="panel-body">
 
     <div class="form-container">
-        <form method="post">
-            <div class="form-group">
-                <label for="firstName">Use Case Name</label>
-                <input type="text" id="usecasename" class="form-control" ng-model="vm.newusecase.usecasename" placeholder="Name of Use Case" required />
-            </div>
+        <form method="post" id="frmNewUsecase">
+          <div class="form-group">
+              <label for="firstName">Use Case Name</label>
+              <input type="text" id="usecasename" class="form-control" ng-model="vm.newusecase.usecasename" placeholder="Name of Use Case" required />
+          </div>
+          <div class="form-group">
+              <label for="firstName">Description</label>
+              <textarea rows="3" id="usecasedescription" class="form-control" ng-model="vm.newusecase.description" placeholder="Description Use Case"/>
+          </div>
             <div class="form-group">
                 <label for="lastName">Category</label>
                 <tags-input ng-model="vm.newusecase.categories"></tags-input>
@@ -93,6 +97,10 @@
       				<h4 contenteditable ng-binding ng-model="vm.usecase.usecasename" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
       			</div>
       			<div class="list-group-item">
+      				<label>Description</label>
+      				<h4 contenteditable ng-binding ng-model="vm.usecase.description" only-text="true" class="list-group-item-heading">{{vm.usecase.description}}</h4>
+      			</div>
+      			<div class="list-group-item">
       				<label>Category</label>
       				<tags-input ng-model="vm.usecase.categories"></tags-input>
       			</div>
@@ -120,11 +128,23 @@
       <div id="DesignSpecCard">
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
-      			<h3 class="panel-title pull-left">Linked <b>Function Specifications</b></h3>
-      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
-      				<i class="fa fa-plus"></i>
-      				<span>Add</span>
-      			</a>
+            <div class="row">
+              <i class="fa fa-2x fa-gear pull-left"></i>
+              <h3 class="panel-title ">Linked <b>Function Specifications</b></h3>
+            </div>
+            <div class="row">
+            <div class="input-group">
+              <input class="form-control" aria-label="Text input with multiple buttons">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" aria-label="Help">
+                  <i class="fa fa-search"></i>
+                </button>
+                <button type="button" class="btn btn-default">
+                <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
       		</div>
       		<div class="list-group">
             <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
@@ -141,11 +161,23 @@
       <div id="UseCaseTestsCard">
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
-      			<h3 class="panel-title pull-left">Linked <b>UC Test Specifications</b></h3>
-      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
-      				<i class="fa fa-plus"></i>
-      				<span>Add</span>
-      			</a>
+            <div class="row">
+      			     <h3 class="panel-title pull-left">Linked <b>UC Test Specifications</b></h3>
+            </div>
+            <div class="row">
+            <div class="input-group">
+              <input class="form-control" aria-label="Text input with multiple buttons">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" aria-label="Help">
+                  <i class="fa fa-search"></i>
+                </button>
+                <button type="button" class="btn btn-default">
+                <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
       		</div>
       		<div class="list-group">
             <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
