@@ -5,13 +5,15 @@
     .module('app')
     .controller('Qm.UseCasesController', Controller);
 
-  function Controller($window, UseCaseService, FlashService) {
+  function Controller($window, UseCaseService, FunctionService, FlashService) {
     var vm = this;
     vm.usecase = null;
     vm.createUseCase = createUseCase;
     vm.updateUseCase = updateUseCase;
     vm.select = select;
     vm.deleteUseCase = deleteUseCase;
+    vm.openFunctionModal = openFunctionModal;
+    vm.addFunctionRef = addFunctionRef;
 
     initController();
 
@@ -61,8 +63,24 @@
     }
 
     function select(usecase) {
+
+      //maybe have to use then function
+      var oldSelectedUsecase = angular.element( document.querySelector( "#container_" + vm.usecase._id ) );
+
+      if(oldSelectedUsecase != null)
+        oldSelectedUsecase.removeClass('active');
+
+      var myEl = angular.element( document.querySelector( "#container_" + usecase._id ) );
+      myEl.addClass('active');
+
+
       UseCaseService.GetById(usecase._id).then(function(uc) {
-        vm.usecase = uc;
+
+        if(uc != null)
+        {
+          vm.usecase = uc;
+          getLinkedSpezifications(uc);
+        }
       });
     }
 
@@ -77,6 +95,65 @@
           FlashService.Error(error);
         });
     }
+
+    function openFunctionModal()
+    {
+
+        FunctionService.GetAll().then(function(fs) {
+
+          if(fs != null)
+          {
+            vm.functions = fs;
+            console.log("found functions: " + fs.length);
+          }
+        });
+
+
+      $('#functionsmodal').modal('show');
+    }
+
+    function addFunctionRef(func)
+    {
+
+      if(vm.usecase.linkedFS == null)
+        vm.usecase.linkedFS = new Array();
+
+        //console.log(vm.usecase.linkedFS);
+
+        var indx = vm.usecase.linkedFS.indexOf(func._id);
+
+        console.log("index of Spezification id is " + indx);
+
+      if(indx == -1) //-1 not in array
+      {
+        vm.usecase.linkedFS.push(func._id);
+
+        UseCaseService.Update(vm.usecase)
+          .then(function() {
+            FlashService.Success('Use Case updated');
+              $('#functionsmodal').modal('hide');
+          })
+          .catch(function(error) {
+            FlashService.Error(error);
+            alert(error);
+          });
+      }
+      else {
+        alert("already in list");
+      }
+    }
+
+    function getLinkedSpezifications(usecase)
+    {
+      UseCaseService.GetConnectedSpezifications(usecase._id).then(function (functions){
+        console.log("for current UC we got specifications: " + functions.length);
+
+        //load all the spezifications
+
+          vm.usecase.functions = functions;
+      });
+    }
+
   }
 
 })();

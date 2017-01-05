@@ -17,6 +17,7 @@ service.update = update;
 service.delete = _delete;
 service.deleteAllUseCases = _deleteAllUseCases;
 service.getAll = getAll;
+service.getDSs = getDSs;
 
 module.exports = service;
 
@@ -52,6 +53,29 @@ function getById(_id) {
         if (usecase) {
             // return user (without hashed password)
             deferred.resolve(_.omit(usecase, 'hash'));
+        } else {
+            // user not found
+            deferred.resolve();
+        }
+    });
+
+    return deferred.promise;
+}
+
+function getDSs(_id) {
+
+  //todo
+
+    var deferred = Q.defer();
+
+    console.log("getting design spez. from DB with Function ID: " + _id);
+
+    db.fs.find({linkedDS: _id}).toArray(function (err, func) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        if (func) {
+            // return user (without hashed password)
+            deferred.resolve(_.omit(func, 'hash'));
         } else {
             // user not found
             deferred.resolve();
@@ -123,9 +147,11 @@ function update(_id, userParam) {
     var deferred = Q.defer();
     // fields to update
     var set = {
-        functionname: userParam.usecasename,
+        functionname: userParam.functionname,
+        description: userParam.description,
         categories: userParam.categories,
         tags: userParam.tags,
+        linkedDS: userParam.linkedDS,
     };
 
     // // update password if it was entered

@@ -54,7 +54,7 @@
         <div class="list-group">
 
           <div ng-repeat="uc in vm.usecases">
-						<a class="list-group-item pjax" ng-class="{'active': vm.usecase._id==uc._id}" ng-click="vm.select(uc)" id="container_{{uc._id}}">
+						<a class="list-group-item pjax"  ng-click="vm.select(uc)" id="container_{{uc._id}}"> <!--ng-class="{'active': vm.usecase._id==uc._id}"-->
 
 							<div class="row">
 								<div class="col-sm-6">
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="col-sm-6 bootcards-cards" id="listDetails"  ng-class="{'invisible': vm.usecase==null}">
-      <div id="usecaseCard">
+      <div id="usecaseDetailsCard">
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
       			<h3 class="panel-title pull-left">Use Case Details [UC-{{vm.usecase.hid}}]</h3>
@@ -125,7 +125,7 @@
       		</div>
       	</div>
       </div>
-      <div id="DesignSpecCard">
+      <div id="FunctionSpezCard">
       	<div class="panel panel-default">
       		<div class="panel-heading clearfix">
             <div class="row">
@@ -139,7 +139,7 @@
                 <button type="button" class="btn btn-default" aria-label="Help">
                   <i class="fa fa-search"></i>
                 </button>
-                <button type="button" class="btn btn-default">
+                <button type="button" class="btn btn-default" ng-click="vm.openFunctionModal()">
                 <i class="fa fa-plus"></i>
                 </button>
               </div>
@@ -147,14 +147,22 @@
           </div>
       		</div>
       		<div class="list-group">
-            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
-									<i class="fa fa-2x pull-left fa-file-text-o"></i>
-									<h4 class="list-group-item-heading">Improved Load Time</h4>
-									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
-						</a>
+
+            <div ng-repeat="f in vm.usecase.functions">
+              <a class="list-group-item pjax" >
+                    <i class="fa fa-2x pull-left fa-file-text-o"></i>
+                    <h4 class="list-group-item-heading">{{f.functionname}}</h4>
+              </a>
+            </div>
+
+            <a class="list-group-item pjax" ng-class="{'hidden-md hidden-lg': vm.usecase.functions!=null}" >
+                  <i class="fa fa-2x pull-left fa-file-text-o"></i>
+                  <h4 class="list-group-item-heading">No connections found</h4>
+            </a>
+
       		</div>
       		<div class="panel-footer">
-      			<small class="pull-right"><a href="">Show all Function Specifications</a></small>
+      			<small class="pull-right"><a href="/app/#/function">Show all Function Specifications</a></small>
       		</div>
       	</div>
       </div>
@@ -220,3 +228,39 @@ Modals
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="functionsmodal" tabindex="-1" role="dialog" aria-labelledby="companyPositionLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="companyPositionLabel">Availalbe Function Spezifications</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="list-group">
+              <div ng-repeat="f in vm.functions">
+                <a class="list-group-item pjax"  ng-click="vm.addFunctionRef(f)">
+
+                  <div class="row"  ng-class="{'bg-success': f.linkedUsecases.indexOf('vm.usecase._id') != -1}">
+                    <div class="col-sm-6">
+                      <i class="fa fa-3x fa-gear pull-left"></i>
+                      <h4 class="list-group-item-heading">{{f.functionname}}</h4>
+                      <p class="list-group-item-text ng-binding"><b>Category: </b> {{f.category}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <p class="list-group-item-text">Function Number: {{f.hid}}</p>
+                      <p class="list-group-item-text">tbd</p>
+                    </div>
+                  </div>
+
+                </a>
+        		</div>
+        	</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>

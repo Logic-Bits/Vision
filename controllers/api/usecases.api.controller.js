@@ -9,6 +9,7 @@ router.post('/create', createUseCase);
 router.put('/:_id', updateUseCase);
 router.get('/:_id', getUseCase);
 router.get('/', getUseCases);
+router.get('/FunctionSpezifications/:_id', getFunctionSpezifications);
 router.delete('/:_id', deleteUseCase);
 router.delete('/deleteall/:_id', deleteAllUseCases);
 
@@ -57,6 +58,20 @@ function getUseCases(req, res) {
           console.log("catch ");
           res.status(400).send(err);
       });
+}
+
+function getFunctionSpezifications(req, res) {
+    ucService.getFSs(req.params._id)
+        .then(function (fs) {
+            if (fs) {
+                res.send(fs);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
 }
 
 function deleteUseCase(req, res) {

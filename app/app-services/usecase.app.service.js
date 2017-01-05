@@ -16,6 +16,7 @@
         service.Update = Update;
         service.Delete = Delete;
         service.DeleteAll = DeleteAll;
+        service.GetConnectedSpezifications = GetConnectedSpezifications;
 
         return service;
 
@@ -51,6 +52,12 @@
           //no ID needed, cldnt figure out how to do it else right now. Redo later
             return $http.delete('/api/usecases/deleteall/' + user._id).then(handleSuccess, handleError);
         }
+
+        function GetConnectedSpezifications(usecaseId)
+        {
+          return $http.get('/api/usecases/FunctionSpezifications/' + usecaseId).then(handleSuccess, handleError);
+        }
+
         // private functions
 
         function handleSuccess(res) {

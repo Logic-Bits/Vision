@@ -4,11 +4,13 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var Q = require('q');
 var mongo = require('mongoskin');
+var ObjectID = require('mongodb').ObjectID;
 var db = mongo.db(config.connectionString, {
   native_parser: true
 });
 //var counters = require('mongodb-counter').createCounters({mongoUrl: config.connectionString, collectionName: 'usecases.counter'});
 db.bind('usecases');
+db.bind('fs');
 //counters.bind('counters');
 
 var service = {};
@@ -19,6 +21,7 @@ service.update = update;
 service.delete = _delete;
 service.deleteAllUseCases = _deleteAllUseCases;
 service.getAll = getAll;
+service.getFSs = getFSs;
 
 module.exports = service;
 
@@ -58,6 +61,49 @@ function getById(_id) {
   });
 
   return deferred.promise;
+}
+
+function getFSs(_id) {
+
+    var deferred = Q.defer();
+
+
+
+      db.usecases.findById(_id, function(err, usecase) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        if (usecase) {
+          //now get the actual FS with the IDs
+
+          console.log("getting functions from DB with usecase ID: " + usecase._id + " and got linked FS: " + usecase.linkedFS);
+
+          if(usecase.linkedFS)
+          {
+            var objIDs = [];
+
+            for(var i = 0; i < usecase.linkedFS.length; i++)
+            {
+              console.log("converting id " + usecase.linkedFS[i]);
+              objIDs.push(new ObjectID(usecase.linkedFS[i]));
+            }
+
+
+            db.fs.find({_id: {$in : objIDs}}).toArray(function (err, funcs)
+              {
+
+                deferred.resolve(funcs);
+              }
+            );
+          }
+
+        } else {
+            // no linked fs
+            console.log("no linked fs to usecase " + _id);
+            deferred.resolve();
+        }
+    });
+
+    return deferred.promise;
 }
 
 function create(userParam) {
@@ -128,6 +174,7 @@ function update(_id, userParam) {
     usecasename: userParam.usecasename,
     description: userParam.description,
     categories: userParam.categories,
+    linkedFS: userParam.linkedFS,
     tags: userParam.tags,
   };
 

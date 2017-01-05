@@ -5,10 +5,10 @@ var fService = require('services/function.db.service');
 
 // routes
 router.post('/create', create);
-//router.get('/current', getCurrentUser);
 router.put('/:_id', update);
 router.get('/:_id', getSingle);
 router.get('/', get);
+//router.get('/byusecase/:_id', getByUseCaseId);
 router.delete('/:_id', deleteSingle);
 router.delete('/deleteall/:_id', deleteAll);
 
@@ -101,6 +101,20 @@ function update(req, res) {
     fService.update(userId, req.body)
         .then(function () {
             res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getByUseCaseId(req, res) {
+    fService.getByUseCaseId(req.params._id)
+        .then(function (fs) {
+            if (fs) {
+                res.send(fs);
+            } else {
+                res.sendStatus(404);
+            }
         })
         .catch(function (err) {
             res.status(400).send(err);
