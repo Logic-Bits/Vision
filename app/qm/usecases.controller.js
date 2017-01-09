@@ -12,6 +12,7 @@
     vm.updateUseCase = updateUseCase;
     vm.select = select;
     vm.deleteUseCase = deleteUseCase;
+    vm.openCreateUseCaseModal = openCreateUseCaseModal;
     vm.openFunctionModal = openFunctionModal;
     vm.addFunctionRef = addFunctionRef;
 
@@ -24,7 +25,7 @@
         console.log("found usecases: " + vm.usecases.length);
 
         if (vm.usecases.length > 0) {
-          vm.usecase = vm.usecases[0];
+          select(vm.usecases[0]) ;
         }
       });
     }
@@ -54,7 +55,7 @@
           initController();
 
           $("#frmNewUsecase")[0].reset();
-
+          $('#createmodal').modal('hide');
           //todo refresh
         })
         .catch(function(error) {
@@ -64,11 +65,14 @@
 
     function select(usecase) {
 
-      //maybe have to use then function
-      var oldSelectedUsecase = angular.element( document.querySelector( "#container_" + vm.usecase._id ) );
+      if(vm.usecase != null)
+      {
+        //maybe have to use then function
+        var oldSelectedUsecase = angular.element( document.querySelector( "#container_" + vm.usecase._id ) );
 
-      if(oldSelectedUsecase != null)
-        oldSelectedUsecase.removeClass('active');
+        if(oldSelectedUsecase != null)
+          oldSelectedUsecase.removeClass('active');
+      }
 
       var myEl = angular.element( document.querySelector( "#container_" + usecase._id ) );
       myEl.addClass('active');
@@ -94,6 +98,11 @@
         .catch(function(error) {
           FlashService.Error(error);
         });
+    }
+
+    function openCreateUseCaseModal()
+    {
+      $('#createmodal').modal('show');
     }
 
     function openFunctionModal()

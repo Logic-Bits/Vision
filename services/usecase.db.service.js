@@ -67,8 +67,6 @@ function getFSs(_id) {
 
     var deferred = Q.defer();
 
-
-
       db.usecases.findById(_id, function(err, usecase) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
