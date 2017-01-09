@@ -149,6 +149,11 @@ function create(userParam) {
       usecase.hid = nextHID;
       console.log("created new HID:" + nextHID);
 
+      if(usecase.version == null)
+      {
+          usecase.version = '1';
+      }
+
       db.usecases.insert(
         usecase,
         function(err, doc) {
@@ -174,6 +179,7 @@ function update(_id, userParam) {
     categories: userParam.categories,
     linkedFS: userParam.linkedFS,
     tags: userParam.tags,
+    version: userParam.version,
   };
 
   // // update password if it was entered
