@@ -17,6 +17,7 @@
         service.Delete = Delete;
         service.DeleteAll = DeleteAll;
         service.GetConnectedSpezifications = GetConnectedSpezifications;
+        service.Duplicate = Duplicate;
 
         return service;
 
@@ -57,6 +58,12 @@
         {
           return $http.get('/api/usecases/FunctionSpezifications/' + usecaseId).then(handleSuccess, handleError);
         }
+
+
+        function Duplicate(usecase) {
+            return $http.put('/api/usecases/duplicate', usecase).then(handleSuccess, handleError);
+        }
+
 
         // private functions
 

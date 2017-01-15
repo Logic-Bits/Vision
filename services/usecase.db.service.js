@@ -22,6 +22,7 @@ service.delete = _delete;
 service.deleteAllUseCases = _deleteAllUseCases;
 service.getAll = getAll;
 service.getFSs = getFSs;
+service.duplicate = duplicate;
 
 module.exports = service;
 
@@ -102,6 +103,24 @@ function getFSs(_id) {
     });
 
     return deferred.promise;
+}
+
+function duplicate(usecase)
+{
+var deferred = Q.defer();
+
+  usecase._id = new ObjectId();
+
+  db.usecases.insert(
+    usecase,
+    function(err, doc) {
+      if (err) {
+        deferred.reject(err.name + ': ' + err.message);
+      }
+
+      deferred.resolve(usecase);
+      //break;
+    });
 }
 
 function create(userParam) {
