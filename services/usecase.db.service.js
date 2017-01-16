@@ -8,10 +8,17 @@ var ObjectID = require('mongodb').ObjectID;
 var db = mongo.db(config.connectionString, {
   native_parser: true
 });
-//var counters = require('mongodb-counter').createCounters({mongoUrl: config.connectionString, collectionName: 'usecases.counter'});
 db.bind('usecases');
 db.bind('fs');
-//counters.bind('counters');
+
+
+//mongoose
+var mongoose = require('mongoose');
+mongoose.connect(config.connectionString);
+
+var models = require('./schemas.db.js')(mongoose); //http://stackoverflow.com/questions/9960486/defining-mongoose-models-in-separate-module
+
+
 
 var service = {};
 
@@ -66,48 +73,48 @@ function getById(_id) {
 
 function getFSs(_id) {
 
-    var deferred = Q.defer();
+  var deferred = Q.defer();
 
-      db.usecases.findById(_id, function(err, usecase) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
+  db.usecases.findById(_id, function(err, usecase) {
+    if (err) deferred.reject(err.name + ': ' + err.message);
 
-        if (usecase) {
-          //now get the actual FS with the IDs
+    if (usecase) {
+      //now get the actual FS with the IDs
 
-          console.log("getting functions from DB with usecase ID: " + usecase._id + " and got linked FS: " + usecase.linkedFS);
+      console.log("getting functions from DB with usecase ID: " + usecase._id +
+        " and got linked FS: " + usecase.linkedFS);
 
-          if(usecase.linkedFS)
-          {
-            var objIDs = [];
+      if (usecase.linkedFS) {
+        var objIDs = [];
 
-            for(var i = 0; i < usecase.linkedFS.length; i++)
-            {
-              console.log("converting id " + usecase.linkedFS[i]);
-              objIDs.push(new ObjectID(usecase.linkedFS[i]));
-            }
-
-
-            db.fs.find({_id: {$in : objIDs}}).toArray(function (err, funcs)
-              {
-
-                deferred.resolve(funcs);
-              }
-            );
-          }
-
-        } else {
-            // no linked fs
-            console.log("no linked fs to usecase " + _id);
-            deferred.resolve();
+        for (var i = 0; i < usecase.linkedFS.length; i++) {
+          console.log("converting id " + usecase.linkedFS[i]);
+          objIDs.push(new ObjectID(usecase.linkedFS[i]));
         }
-    });
 
-    return deferred.promise;
+
+        db.fs.find({
+          _id: {
+            $in: objIDs
+          }
+        }).toArray(function(err, funcs) {
+
+          deferred.resolve(funcs);
+        });
+      }
+
+    } else {
+      // no linked fs
+      console.log("no linked fs to usecase " + _id);
+      deferred.resolve();
+    }
+  });
+
+  return deferred.promise;
 }
 
-function duplicate(usecase)
-{
-var deferred = Q.defer();
+function duplicate(usecase) {
+  var deferred = Q.defer();
 
   usecase._id = new ObjectId();
 
@@ -168,9 +175,8 @@ function create(userParam) {
       usecase.hid = nextHID;
       console.log("created new HID:" + nextHID);
 
-      if(usecase.version == null)
-      {
-          usecase.version = '1';
+      if (usecase.version == null) {
+        usecase.version = '1';
       }
 
       db.usecases.insert(
