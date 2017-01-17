@@ -26,6 +26,27 @@ module.exports = function(mongoose) {
       name: String,
       description: String,
       _base: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Base'
+      },
+      version: Number,
+      Tags: [{
+        type: String
+      }],
+      trackingcodes: [{ //like jira
+        type: String
+      }],
+      archivedate: Date,
+      linkedFunctions: [{
+        type: Number,
+        ref: 'Function'
+      }]
+    });
+
+    var FunctionSchema = new Schema({
+      name: String,
+      description: String,
+      _base: {
         type: Number,
         ref: 'Base'
       },
@@ -39,7 +60,10 @@ module.exports = function(mongoose) {
       archivedate: Date,
     });
 
+
+
     var models = {
+      Functions: mongoose.model('Functions', FunctionSchema),
       UseCases: mongoose.model('UseCases', UsecaseSchema),
       Bases: mongoose.model('Bases', BaseSchema)
     };

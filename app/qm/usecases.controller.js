@@ -154,7 +154,9 @@
 
     function getLinkedSpezifications(usecase)
     {
-      UseCaseService.GetConnectedSpezifications(usecase._id).then(function (functions){
+var usecaseid = usecase._id;
+
+      UseCaseService.GetConnectedSpezifications(usecaseid).then(function (functions){
         console.log("for current UC we got specifications: " + functions.length);
 
         //load all the spezifications

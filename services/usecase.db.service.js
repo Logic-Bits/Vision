@@ -34,21 +34,41 @@ service.duplicate = duplicate;
 module.exports = service;
 
 function getAll() {
+
   var deferred = Q.defer();
 
-  db.usecases.find().toArray(function(err, result) {
+
+
+  models.UseCases.find(function(err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
-    if (result) {
-      deferred.resolve(result);
+    if (usecases) {
+      deferred.resolve(usecases);
+
       //return entries;
     } else {
       deferred.resolve();
     }
+
   });
 
   return deferred.promise;
+
+  // 
+  // db.usecases.find().toArray(function(err, result) {
+  //
+  //   if (err) deferred.reject(err.name + ': ' + err.message);
+  //
+  //   if (result) {
+  //     deferred.resolve(result);
+  //     //return entries;
+  //   } else {
+  //     deferred.resolve();
+  //   }
+  // });
+  //
+  // return deferred.promise;
 }
 
 function getById(_id) {
@@ -56,17 +76,32 @@ function getById(_id) {
 
   console.log("getting usecase from DB with ID: " + _id);
 
-  db.usecases.findById(_id, function(err, usecase) {
+
+  models.UseCases.findOne({"_id": _id}, function(err, usecases) {
+
     if (err) deferred.reject(err.name + ': ' + err.message);
 
-    if (usecase) {
-      // return user (without hashed password)
-      deferred.resolve(_.omit(usecase, 'hash'));
+    if (usecases) {
+      deferred.resolve(usecases);
+      //return entries;
     } else {
-      // user not found
       deferred.resolve();
     }
+
   });
+
+
+  // db.usecases.findById(_id, function(err, usecase) {
+  //   if (err) deferred.reject(err.name + ': ' + err.message);
+
+  //   if (usecase) {
+  //     // return user (without hashed password)
+  //     deferred.resolve(_.omit(usecase, 'hash'));
+  //   } else {
+  //     // user not found
+  //     deferred.resolve();
+  //   }
+  // });
 
   return deferred.promise;
 }
