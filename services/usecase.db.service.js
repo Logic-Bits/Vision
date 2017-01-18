@@ -37,8 +37,6 @@ function getAll() {
 
   var deferred = Q.defer();
 
-
-
   models.UseCases.find(function(err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
@@ -76,7 +74,6 @@ function getById(_id) {
 
   console.log("getting usecase from DB with ID: " + _id);
 
-
   models.UseCases.findOne({"_id": _id}, function(err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
@@ -87,7 +84,6 @@ function getById(_id) {
     } else {
       deferred.resolve();
     }
-
   });
 
 
@@ -185,10 +181,46 @@ function create(userParam) {
     });
 
   function createUseCase() {
-    // set user object to userParam without the cleartext password
-    var usecase = _.omit(userParam, 'password');
 
     console.log("in createUseCase");
+
+    // models.UseCases.find({}).sort({hid: -1}).limit(1).toArray(function (err, cursor){
+    //   var myFirstDocument = cursor[0]; //cursor.hasNext() ? cursor.next() : null;
+
+    //   var nextHID = -1;
+    //   if (myFirstDocument != null && !isNaN(myFirstDocument.hid)) {
+    //     console.log("current last usecase is: " + myFirstDocument.usecasename +
+    //       " with id: " + myFirstDocument.hid);
+    //     nextHID = myFirstDocument.hid + 1;
+    //   } else {
+    //     console.log("no number or entry");
+    //     nextHID = 1;
+    //   }
+
+    //   usecase.hid = nextHID;
+    //   console.log("created new HID:" + nextHID);
+
+    //   if (usecase.version == null) {
+    //     usecase.version = '1';
+    //   }
+
+    //   db.usecases.insert(
+    //     usecase,
+    //     function(err, doc) {
+    //       if (err) {
+    //         deferred.reject(err.name + ': ' + err.message);
+    //       }
+
+    //       deferred.resolve();
+    //       //break;
+    //     });
+    // });
+
+
+
+
+
+
 
     db.usecases.find({}).sort({
       hid: -1
