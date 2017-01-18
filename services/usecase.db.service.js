@@ -14,10 +14,10 @@ db.bind('fs');
 
 //mongoose
 var mongoose = require('mongoose');
-mongoose.connect(config.connectionString);
+if (mongoose.connection.readyState != 1) // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting 
+  mongoose.connect(config.connectionString);
 
 var models = require('./schemas.db.js')(mongoose); //http://stackoverflow.com/questions/9960486/defining-mongoose-models-in-separate-module
-
 
 
 var service = {};
@@ -37,36 +37,18 @@ function getAll() {
 
   var deferred = Q.defer();
 
-  models.UseCases.find(function(err, usecases) {
+  models.UseCases.find({}).populate('_base').lean().exec(function (err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
     if (usecases) {
       deferred.resolve(usecases);
-
-      //return entries;
     } else {
       deferred.resolve();
     }
-
   });
 
   return deferred.promise;
-
-  // 
-  // db.usecases.find().toArray(function(err, result) {
-  //
-  //   if (err) deferred.reject(err.name + ': ' + err.message);
-  //
-  //   if (result) {
-  //     deferred.resolve(result);
-  //     //return entries;
-  //   } else {
-  //     deferred.resolve();
-  //   }
-  // });
-  //
-  // return deferred.promise;
 }
 
 function getById(_id) {
@@ -74,7 +56,7 @@ function getById(_id) {
 
   console.log("getting usecase from DB with ID: " + _id);
 
-  models.UseCases.findOne({"_id": _id}, function(err, usecases) {
+  models.UseCases.findOne({ "_id": _id }).populate('_base linkedFS').exec(function (err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
@@ -85,20 +67,6 @@ function getById(_id) {
       deferred.resolve();
     }
   });
-
-
-  // db.usecases.findById(_id, function(err, usecase) {
-  //   if (err) deferred.reject(err.name + ': ' + err.message);
-
-  //   if (usecase) {
-  //     // return user (without hashed password)
-  //     deferred.resolve(_.omit(usecase, 'hash'));
-  //   } else {
-  //     // user not found
-  //     deferred.resolve();
-  //   }
-  // });
-
   return deferred.promise;
 }
 
@@ -106,7 +74,7 @@ function getFSs(_id) {
 
   var deferred = Q.defer();
 
-  db.usecases.findById(_id, function(err, usecase) {
+  db.usecases.findById(_id, function (err, usecase) {
     if (err) deferred.reject(err.name + ': ' + err.message);
 
     if (usecase) {
@@ -128,7 +96,7 @@ function getFSs(_id) {
           _id: {
             $in: objIDs
           }
-        }).toArray(function(err, funcs) {
+        }).toArray(function (err, funcs) {
 
           deferred.resolve(funcs);
         });
@@ -151,7 +119,7 @@ function duplicate(usecase) {
 
   db.usecases.insert(
     usecase,
-    function(err, doc) {
+    function (err, doc) {
       if (err) {
         deferred.reject(err.name + ': ' + err.message);
       }
@@ -165,14 +133,14 @@ function create(userParam) {
   var deferred = Q.defer();
 
   // validation
-  db.usecases.findOne({
-      usecasename: userParam.usecasename
-    },
-    function(err, usecase) {
+  models.UseCases.findOne({
+    usecasename: userParam.usecasename
+  },
+    function (err, usecase) {
       if (err) deferred.reject(err.name + ': ' + err.message);
 
       if (usecase) {
-        // username already exists
+        // usecase already exists
         deferred.reject('usecase "' + userParam.usecasename +
           '" is already taken');
       } else {
@@ -184,126 +152,94 @@ function create(userParam) {
 
     console.log("in createUseCase");
 
-    // models.UseCases.find({}).sort({hid: -1}).limit(1).toArray(function (err, cursor){
-    //   var myFirstDocument = cursor[0]; //cursor.hasNext() ? cursor.next() : null;
-
-    //   var nextHID = -1;
-    //   if (myFirstDocument != null && !isNaN(myFirstDocument.hid)) {
-    //     console.log("current last usecase is: " + myFirstDocument.usecasename +
-    //       " with id: " + myFirstDocument.hid);
-    //     nextHID = myFirstDocument.hid + 1;
-    //   } else {
-    //     console.log("no number or entry");
-    //     nextHID = 1;
-    //   }
-
-    //   usecase.hid = nextHID;
-    //   console.log("created new HID:" + nextHID);
-
-    //   if (usecase.version == null) {
-    //     usecase.version = '1';
-    //   }
-
-    //   db.usecases.insert(
-    //     usecase,
-    //     function(err, doc) {
-    //       if (err) {
-    //         deferred.reject(err.name + ': ' + err.message);
-    //       }
-
-    //       deferred.resolve();
-    //       //break;
-    //     });
-    // });
-
-
-
-
-
-
-
-    db.usecases.find({}).sort({
-      hid: -1
-    }).limit(1).toArray(function(err, cursor) {
-
+    models.Bases.find({}).sort({ 'hid': -1 }).limit(1).lean().exec(function (err, cursor) {
       var myFirstDocument = cursor[0]; //cursor.hasNext() ? cursor.next() : null;
 
+      //if we only need the HID then we can search directly in Bases
+
+      //--find next HID --//
       var nextHID = -1;
       if (myFirstDocument != null && !isNaN(myFirstDocument.hid)) {
-        //console.log("document is: " + myFirstDocument);
-        console.log("current last usecase is: " + myFirstDocument.usecasename +
+        console.log("current last base is: " + myFirstDocument._id +
           " with id: " + myFirstDocument.hid);
         nextHID = myFirstDocument.hid + 1;
       } else {
         console.log("no number or entry");
         nextHID = 1;
       }
+      //----//
 
-      usecase.hid = nextHID;
       console.log("created new HID:" + nextHID);
 
-      if (usecase.version == null) {
-        usecase.version = '1';
-      }
+      var newBase = new models.Bases();
+      newBase.hid = nextHID;
+      newBase.type = 'UseCase';
 
-      db.usecases.insert(
-        usecase,
-        function(err, doc) {
+      newBase.save(function (err) {
+        if (err) {
+          deferred.reject(err.name + ': ' + err.message);
+          return deferred.promise;
+        }
+
+        var newUseCase = new models.UseCases();
+        newUseCase._base = newBase._id;
+        //newUseCase.hid = nextHID;
+        newUseCase.usecasename = userParam.usecasename;
+        newUseCase.description = userParam.description;
+        newUseCase.tags = userParam.tags;
+        newUseCase.trackingcodes = userParam.trackingcodes;
+
+        if (isNaN(newUseCase.version))
+          newUseCase.version = '1';
+
+        newUseCase.save(function (err) {
           if (err) {
             deferred.reject(err.name + ': ' + err.message);
+            return deferred.promise;
           }
-
-          deferred.resolve();
-          //break;
+          else {
+            deferred.resolve(newUseCase);
+          }
         });
+      });
     });
   }
-
   return deferred.promise;
 }
 
 function update(_id, userParam) {
+
   var deferred = Q.defer();
-  // fields to update
-  var set = {
-    usecasename: userParam.usecasename,
-    description: userParam.description,
-    categories: userParam.categories,
-    linkedFS: userParam.linkedFS,
-    tags: userParam.tags,
-    version: userParam.version,
-  };
+  models.UseCases.findById(_id, function (err, uc) {
+    if (err) {
+      deferred.reject(err.name + ': ' + err.message);
+    }
 
-  // // update password if it was entered
-  // if (userParam.password) {
-  //     set.hash = bcrypt.hashSync(userParam.password, 10);
-  // }
+    //safe set all values
+    uc.usecasename = userParam.usecasename;
+    uc.description = userParam.description;
+    uc.categories = userParam.categories;
+    uc.linkedFS = userParam.linkedFS;
+    uc.tags = userParam.tags;
+    uc.trackingcodes = userParam.trackingcodes;
 
-  db.usecases.update({
-      _id: mongo.helper.toObjectID(_id)
-    }, {
-      $set: set
-    },
-    function(err, doc) {
-      if (err) deferred.reject(err.name + ': ' + err.message);
-
-      deferred.resolve();
+    uc.save(function (err, updatedUC) {
+      if (err)
+        deferred.reject(err.name + ': ' + err.message);
+      deferred.resolve(updatedUC);
     });
+  });
 
   return deferred.promise;
 };
 
 function _delete(_id) {
   var deferred = Q.defer();
-
-  db.usecases.remove({
-      _id: mongo.helper.toObjectID(_id)
-    },
-    function(err) {
-      if (err) deferred.reject(err.name + ': ' + err.message);
-
-      deferred.resolve();
-    });
+  models.UseCases.findById(_id).remove().exec(function (err, data) {
+    if (err)
+      deferred.reject(err.name + ': ' + err.message);
+    deferred.resolve();
+  });
 
   return deferred.promise;
 }
@@ -312,13 +248,11 @@ function _deleteAllUseCases(userid) {
 
   var deferred = Q.defer();
 
-  console.log("deleting usecase from db level");
+  console.log("deleting usecase from db level by user: " + userid);
 
-  db.usecases.remove({}, function(err) {
+  models.UseCases.remove({}, function (err) {
     if (err) deferred.reject(err.name + ': ' + err.message);
-
     deferred.resolve();
   });
-
   return deferred.promise;
 }

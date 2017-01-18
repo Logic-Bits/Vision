@@ -34,294 +34,316 @@
     <div class="col-sm-6 bootcards-list" id="list" data-title="Use Cases">
       <div class="panel panel-default">
         <div class="panel-body">
-						<div class="search-form">
-							<div class="row">
-							    <div class="col-xs-9">
-							      <div class="form-group">
-								      <input type="text" class="form-control" placeholder="Search Use Cases...">
-								      <i class="fa fa-search"></i>
-							      </div>
-							    </div>
-							    <div class="col-xs-3">
-									<a class="btn btn-primary btn-block" ng-click="vm.openCreateUseCaseModal()" data-toggle="modal" data-target="#editModal">
-										<i class="fa fa-plus"></i>
-										<span>Add</span>
-									</a>
-							    </div>
-							</div>
-						</div>
-					</div>
+          <div class="search-form">
+            <div class="row">
+              <div class="col-xs-9">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search Use Cases...">
+                  <i class="fa fa-search"></i>
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <a class="btn btn-primary btn-block" ng-click="vm.openCreateUseCaseModal()" data-toggle="modal" data-target="#editModal">
+                  <i class="fa fa-plus"></i>
+                  <span>Add</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="list-group">
 
           <div ng-repeat="uc in vm.usecases">
-						<a class="list-group-item pjax" ng-class="{'active': vm.usecase._id==uc._id}"  ng-click="vm.select(uc)" id="container_{{uc._id}}"> <!--ng-class="{'active': vm.usecase._id==uc._id}"-->
+            <a class="list-group-item pjax" ng-class="{'active': vm.usecase._id==uc._id}" ng-click="vm.select(uc)" id="container_{{uc._id}}">
+              <!--ng-class="{'active': vm.usecase._id==uc._id}"-->
 
-							<div class="row">
-								<div class="col-sm-6">
-									<i class="fa fa-3x fa-file-o pull-left"></i>
-									<h4 class="list-group-item-heading">{{uc.usecasename}}</h4>
-									<p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
-								</div>
-								<div class="col-sm-6">
-									<p class="list-group-item-text">Use Case Number: {{uc.hid}}</p>
-									<p class="list-group-item-text">Linked Function Spez.: 3</p>
-								</div>
-							</div>
-						</a>
+              <div class="row">
+                <div class="col-sm-6">
+                  <i class="fa fa-3x fa-file-o pull-left"></i>
+                  <h4 class="list-group-item-heading">{{uc.usecasename}}</h4>
+                  <p class="list-group-item-text ng-binding"><b>Category: </b> {{uc.category}}</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="list-group-item-text">Use Case Number: {{uc._base.hid}}</p>
+                  <p class="list-group-item-text">Linked Function Spez.: 3</p>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-sm-6 bootcards-cards" id="listDetails"  ng-class="{'invisible': vm.usecase==null}">
+    <div class="col-sm-6 bootcards-cards" id="listDetails" ng-class="{'invisible': vm.usecase==null}">
       <div id="usecaseDetailsCard">
-      	<div class="panel panel-default">
-      		<div class="panel-heading clearfix">
-      			<h3 class="panel-title pull-left">UC Details [<b>UC-{{vm.usecase.hid}}</b>] <!-- <sup>v.{{vm.usecase.version}}</sup>--></h3>
-      			<div class="btn-group pull-right visible-xs">
-      				<a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
-      					<i class="fa fa-pencil"></i>
-      					<span>Edit</span>
-      				</a>
-      			</div>
-
-            <div style="margin-left: 5px;" class="btn-group pull-right">
-               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Version 3 <span class="caret"></button>
-               <ul class="dropdown-menu">
-                 <li><a href="#"><span class=""/>Version 1</a></li>
-                 <li><a href="#"><span class=""/>Version 2</a></li>
-                 <li role="separator" class="divider"></li>
-                 <li>
-                   <a class="btn btn-link btn-xs text-danger pull-left" data-toggle="modal" data-target="#confirm-delete"> <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
-             			     <span class="text-success"><span class="glyphicon glyphicon-plus"/> Create new Version</span>
-                   </a>
-                 </li>
-               </ul>
-            </div>
-
-            <div style="margin-left: 5px;" class="btn-group pull-right">
-               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"><span class="caret"></span></button>
-               <ul class="dropdown-menu">
-                 <li><a href="#"><span class="glyphicon glyphicon-inbox"/> Archive</a></li>
-                 <li><a href="#"><span class="glyphicon glyphicon-open"/> Create New Version</a></li>
-                 <li role="separator" class="divider"></li>
-                 <li>
-                   <a class="btn btn-link btn-xs text-danger pull-left" data-toggle="modal" data-target="#confirm-delete"> <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
-             			     <span class="text-danger"><span class="glyphicon glyphicon-trash"/> Delete</span>
-                   </a>
-                 </li>
-               </ul>
-            </div>
-      			<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
-      				<i class="fa fa-save"></i>
-      				<span>Save</span>
-      			</a>
-      		</div>
-      		<div class="list-group">
-      			<div class="list-group-item">
-      				<i class="fa fa-2x fa-building-o pull-left"></i>
-      				<label><b>Name</b> (Version {{vm.usecase.version}})</label>
-      				<h4 contenteditable ng-binding ng-model="vm.usecase.usecasename" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
-      			</div>
-      			<div class="list-group-item">
-      				<label>Description</label>
-      				<h4 contenteditable ng-binding ng-model="vm.usecase.description" only-text="true" class="list-group-item-heading">{{vm.usecase.description}}</h4>
-      			</div>
-      			<div class="list-group-item">
-      				<label>Category</label>
-      				<tags-input ng-model="vm.usecase.categories"></tags-input>
-      			</div>
-      			<div class="list-group-item">
-      				<label>Tags</label>
-      				<tags-input ng-model="vm.usecase.tags"></tags-input>
-      			</div>
-      			<div class="list-group-item">
-      				<label>ID</label>
-      				<h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
-      			</div>
-      			<!-- <div class="list-group-item">
-      				<label>Number</label>
-      				<h4 class="list-group-item-heading">ID: {{vm.usecase.hid}}</h4>
-      			</div> -->
-      		</div>
-      		<div class="panel-footer">
-      			<small class="pull-center"><a href="#">View all details!</a></small>
-      		</div>
-      	</div>
-      </div>
-      <div id="FunctionSpezCard">
-      	<div class="panel panel-default">
-      		<div class="panel-heading clearfix">
-            <div class="row">
-              <i  style="margin-left: 5px;" class="fa fa-2x fa-gear pull-left"></i>
-              <h3 class="panel-title ">Linked <b>Function Specifications</b></h3>
-            </div>
-            <div class="row">
-            <div class="input-group" style="margin-left: 5px; margin-right: 5px;">
-              <input  class="form-control" aria-label="Text input with multiple buttons">
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-default" aria-label="Help">
-                  <i class="fa fa-search"></i>
-                </button>
-                <button type="button" class="btn btn-default" ng-click="vm.openFunctionModal()">
-                <i class="fa fa-plus"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-      		</div>
-      		<div class="list-group">
-
-            <div ng-repeat="f in vm.usecase.functions">
-              <a class="list-group-item pjax">
-                    <i class="fa fa-2x pull-left fa-file-text-o"></i>
-                    <h4 class="list-group-item-heading">{{f.functionname}}</h4>
+        <div class="panel panel-default">
+          <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left">UC Details [<b>UC-{{vm.usecase.hid}}</b>]
+              <!-- <sup>v.{{vm.usecase.version}}</sup>--></h3>
+            <div class="btn-group pull-right visible-xs">
+              <a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
               </a>
             </div>
 
-            <a class="list-group-item pjax" ng-class="{'hidden-md hidden-lg': vm.usecase.functions!=null}" >
-                  <i class="fa fa-2x pull-left fa-file-text-o"></i>
-                  <h4 class="list-group-item-heading">No connections found</h4>
-            </a>
+            <div style="margin-left: 5px;" class="btn-group pull-right">
+<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Version 3 <span class="caret"></button>
+<ul class="dropdown-menu">
+  <li>
+    <a href="#"><span class="" />Version 1</a>
+  </li>
+  <li>
+    <a href="#"><span class="" />Version 2</a>
+  </li>
+  <li role="separator" class="divider"></li>
+  <li>
+    <a class="btn btn-link btn-xs text-danger pull-left" data-toggle="modal" data-target="#confirm-delete">
+      <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
+      <span class="text-success"><span class="glyphicon glyphicon-plus"/> Create new Version</span>
+    </a>
+  </li>
+</ul>
+</div>
 
-      		</div>
-      		<div class="panel-footer">
-      			<small class="pull-right"><a href="/app/#/function">Show all Function Specifications</a></small>
-      		</div>
-      	</div>
-      </div>
-      <div id="UseCaseTestsCard">
-      	<div class="panel panel-default">
-      		<div class="panel-heading clearfix">
-            <div class="row">
-      			     <h3 class="panel-title pull-left">Linked <b>UC Test Specifications</b></h3>
-            </div>
-            <div class="row">
-            <div class="input-group">
-              <input class="form-control" aria-label="Text input with multiple buttons">
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-default" aria-label="Help">
+<div style="margin-left: 5px;" class="btn-group pull-right">
+<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"><span class="caret"></span></button>
+<ul class="dropdown-menu">
+  <li>
+    <a href="#"><span class="glyphicon glyphicon-inbox" /> Archive</a>
+  </li>
+  <li>
+    <a href="#"><span class="glyphicon glyphicon-open" /> Create New Version</a>
+  </li>
+  <li role="separator" class="divider"></li>
+  <li>
+    <a class="btn btn-link btn-xs text-danger pull-left" data-toggle="modal" data-target="#confirm-delete">
+      <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
+      <span class="text-danger"><span class="glyphicon glyphicon-trash"/> Delete</span>
+    </a>
+  </li>
+</ul>
+</div>
+<a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
+  <i class="fa fa-save"></i>
+  <span>Save</span>
+</a>
+</div>
+<div class="list-group">
+  <div class="list-group-item">
+    <i class="fa fa-2x fa-building-o pull-left"></i>
+    <label><b>Name</b> (Version {{vm.usecase.version}})</label>
+    <h4 contenteditable ng-binding ng-model="vm.usecase.usecasename" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
+  </div>
+  <div class="list-group-item">
+    <label>Description</label>
+    <h4 contenteditable ng-binding ng-model="vm.usecase.description" only-text="true" class="list-group-item-heading">{{vm.usecase.description}}</h4>
+  </div>
+  <div class="list-group-item">
+    <label>Category</label>
+    <tags-input ng-model="vm.usecase.categories"></tags-input>
+  </div>
+  <div class="list-group-item">
+    <label>Tags</label>
+    <tags-input ng-model="vm.usecase.tags"></tags-input>
+  </div>
+  <div class="list-group-item">
+    <label>ID</label>
+    <h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
+  </div>
+  <div class="list-group-item">
+    <label>Created / Modified</label>
+    <h4 class="list-group-item-heading">{{vm.usecase._base.createdate | date:'medium'}}</h4>
+    <h4 class="list-group-item-heading">{{vm.usecase._base.lastmodified | date:'medium'}}</h4>
+    <!--<h4 class="list-group-item-heading">{{vm.usecase._base.lastmodified}}</h4>-->
+  </div>
+  <!-- <div class="list-group-item">
+      				<label>Number</label>
+      				<h4 class="list-group-item-heading">ID: {{vm.usecase.hid}}</h4>
+      			</div> -->
+</div>
+<div class="panel-footer">
+  <small class="pull-center"><a href="#">View all details!</a></small>
+</div>
+</div>
+</div>
+<div id="FunctionSpezCard">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <div class="row">
+        <i style="margin-left: 5px;" class="fa fa-2x fa-gear pull-left"></i>
+<h3 class="panel-title ">Linked <b>Function Specifications</b></h3>
+</div>
+<div class="row">
+  <div class="input-group" style="margin-left: 5px; margin-right: 5px;">
+<input class="form-control" aria-label="Text input with multiple buttons">
+<div class="input-group-btn">
+  <button type="button" class="btn btn-default" aria-label="Help">
                   <i class="fa fa-search"></i>
                 </button>
-                <button type="button" class="btn btn-default">
+  <button type="button" class="btn btn-default" ng-click="vm.openFunctionModal()">
                 <i class="fa fa-plus"></i>
                 </button>
-              </div>
-            </div>
+</div>
+</div>
+</div>
+</div>
+<div class="list-group">
 
+  <div ng-repeat="f in vm.usecase.linkedFS">
+    <a class="list-group-item pjax">
+      <i class="fa fa-2x pull-left fa-file-text-o"></i>
+      <h3 class="list-group-item-heading">{{f.functionname}}</h3>
+    </a>
+  </div>
+
+  <div ng-show="vm.usecase.linkedFS.length < 1">
+    <a class="list-group-item pjax">
+      <i class="fa fa-2x pull-left fa-file-text-o"></i>
+      <h3 class="list-group-item-heading">No links</h3>
+    </a>
+  </div>
+
+</div>
+<div class="panel-footer">
+  <small class="pull-right"><a href="/app/#/function">Show all Function Specifications</a></small>
+</div>
+</div>
+</div>
+<div id="UseCaseTestsCard">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <div class="row">
+        <h3 class="panel-title pull-left">Linked <b>UC Test Specifications</b></h3>
+      </div>
+      <div class="row">
+        <div class="input-group">
+          <input class="form-control" aria-label="Text input with multiple buttons">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default" aria-label="Help">
+                  <i class="fa fa-search"></i>
+                </button>
+            <button type="button" class="btn btn-default">
+                <i class="fa fa-plus"></i>
+                </button>
           </div>
-      		</div>
-      		<div class="list-group">
-            <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
-									<i class="fa fa-2x pull-left fa-file-text-o"></i>
-									<h4 class="list-group-item-heading">Improved Load Time</h4>
-									<p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
-						</a>
-      		</div>
-      		<div class="panel-footer">
-      			<small class="pull-right"><a href="">Show all Test Specifications</a></small>
-      		</div>
-      	</div>
+        </div>
+
       </div>
     </div>
+    <div class="list-group">
+      <a class="list-group-item pjax" href="/companies/o8v9urr7vchs/notes/1rhen4xigta0w">
+        <i class="fa fa-2x pull-left fa-file-text-o"></i>
+        <h4 class="list-group-item-heading">Improved Load Time</h4>
+        <p class="list-group-item-text">Mon 02 Dec 2013 17:26</p>
+      </a>
+    </div>
+    <div class="panel-footer">
+      <small class="pull-right"><a href="">Show all Test Specifications</a></small>
+    </div>
   </div>
+</div>
+</div>
+</div>
 </div>
 
 <!--
 Modals
 -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-            </div>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+      </div>
 
-            <div class="modal-body">
-                <p>You are about to delete one track, this procedure is irreversible.</p>
-                <p>Do you want to proceed?</p>
-                <p class="debug-url"></p>
-            </div>
+      <div class="modal-body">
+        <p>You are about to delete one track, this procedure is irreversible.</p>
+        <p>Do you want to proceed?</p>
+        <p class="debug-url"></p>
+      </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok" ng-click="vm.deleteUseCase(vm.usecase)">Delete</a>
-            </div>
-        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-danger btn-ok" ng-click="vm.deleteUseCase(vm.usecase)">Delete</a>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="modal fade" id="functionsmodal" tabindex="-1" role="dialog" aria-labelledby="companyPositionLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="companyPositionLabel">Availalbe Function Spezifications</h4>
-          </div>
-          <div class="modal-body">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="companyPositionLabel">Availalbe Function Spezifications</h4>
+      </div>
+      <div class="modal-body">
 
-            <div class="list-group">
-              <div ng-repeat="f in vm.functions">
-                <a class="list-group-item pjax"  ng-click="vm.addFunctionRef(f)">
+        <div class="list-group">
+          <div ng-repeat="f in vm.functions">
+            <a class="list-group-item pjax" ng-click="vm.addFunctionRef(f)">
 
-                  <div class="row"  ng-class="{'bg-success': f.linkedUsecases.indexOf('vm.usecase._id') != -1}">
-                    <div class="col-sm-6">
-                      <i class="fa fa-3x fa-gear pull-left"></i>
-                      <h4 class="list-group-item-heading">{{f.functionname}}</h4>
-                      <p class="list-group-item-text ng-binding"><b>Category: </b> {{f.category}}</p>
-                    </div>
-                    <div class="col-sm-6">
-                      <p class="list-group-item-text">Function Number: {{f.hid}}</p>
-                      <p class="list-group-item-text">tbd</p>
-                    </div>
-                  </div>
+              <div class="row" ng-class="{'bg-success': f.linkedUsecases.indexOf('vm.usecase._id') != -1}">
+                <div class="col-sm-6">
+                  <i class="fa fa-3x fa-gear pull-left"></i>
+                  <h4 class="list-group-item-heading">{{f.functionname}}</h4>
+                  <p class="list-group-item-text ng-binding"><b>Category: </b> {{f.category}}</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="list-group-item-text">Function Number: {{f.hid}}</p>
+                  <p class="list-group-item-text">tbd</p>
+                </div>
+              </div>
 
-                </a>
-        		</div>
-        	</div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </a>
           </div>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
 
 <div class="modal fade" id="createmodal" tabindex="-1" role="dialog" aria-labelledby="companyPositionLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="companyPositionLabel">Create new Use Case</h4>
-          </div>
-          <div class="modal-body">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="companyPositionLabel">Create new Use Case</h4>
+      </div>
+      <div class="modal-body">
 
-            <div class="form-container">
-                <form method="post" id="frmNewUsecase">
-                  <div class="form-group">
-                      <label for="firstName">Use Case Name</label>
-                      <input type="text" id="usecasename" class="form-control" ng-model="vm.newusecase.usecasename" placeholder="Name of Use Case" required />
-                  </div>
-                  <div class="form-group">
-                      <label for="firstName">Description</label>
-                      <textarea rows="3" id="usecasedescription" class="form-control" ng-model="vm.newusecase.description" placeholder="Description Use Case"/>
-                  </div>
-                    <div class="form-group">
-                        <label for="lastName">Category</label>
-                        <tags-input ng-model="vm.newusecase.categories"></tags-input>
-                    </div>
-                    <!-- <div class="form-group">
+        <div class="form-container">
+          <form method="post" id="frmNewUsecase">
+            <div class="form-group">
+              <label for="firstName">Use Case Name</label>
+              <input type="text" id="usecasename" class="form-control" ng-model="vm.newusecase.usecasename" placeholder="Name of Use Case"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="firstName">Description</label>
+              <textarea rows="3" id="usecasedescription" class="form-control" ng-model="vm.newusecase.description" placeholder="Description Use Case"
+              />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Category</label>
+              <tags-input ng-model="vm.newusecase.categories"></tags-input>
+            </div>
+            <!-- <div class="form-group">
                         <button class="btn btn-primary" ng-click="vm.createUseCase()">Save</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
                     </div> -->
-                </form>
-            </div>
+          </form>
+        </div>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-success btn-ok" ng-click="vm.createUseCase()">Create</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success btn-ok" ng-click="vm.createUseCase()">Create</a>
           </div>
         </div>
       </div>

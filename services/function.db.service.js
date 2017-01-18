@@ -6,8 +6,18 @@ var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 //var counters = require('mongodb-counter').createCounters({mongoUrl: config.connectionString, collectionName: 'usecases.counter'});
-db.bind('fs'); //function specification
+db.bind('functions'); //function specification
 //counters.bind('counters');
+
+
+//mongoose
+var mongoose = require('mongoose');
+if (mongoose.connections != null && mongoose.connections[0].readyState == 0) // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting 
+  mongoose.connect(config.connectionString);
+
+var models = require('./schemas.db.js')(mongoose); //http://stackoverflow.com/questions/9960486/defining-mongoose-models-in-separate-module
+
+
 
 var service = {};
 
@@ -27,7 +37,7 @@ function getAll()
 
     var deferred = Q.defer();
 
-    db.fs.find().toArray(function(err, result) {
+    db.functions.find().toArray(function(err, result) {
 
         if (err) deferred.reject(err.name + ': ' + err.message);
 
@@ -47,7 +57,7 @@ function getById(_id) {
 
     console.log("getting function from DB with ID: " + _id);
 
-    db.fs.findById(_id, function (err, usecase) {
+    db.functions.findById(_id, function (err, usecase) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (usecase) {
@@ -70,7 +80,7 @@ function getDSs(_id) {
 
     console.log("getting design spez. from DB with Function ID: " + _id);
 
-    db.fs.find({linkedDS: _id}).toArray(function (err, func) {
+    db.functions.find({linkedDS: _id}).toArray(function (err, func) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (func) {
@@ -89,7 +99,7 @@ function create(userParam) {
     var deferred = Q.defer();
 
     // validation
-    db.fs.findOne(
+    db.functions.findOne(
         { functionname: userParam.functionname },
         function (err, usecase) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -119,7 +129,7 @@ function create(userParam) {
         // add hashed password to user object
         //user.hash = bcrypt.hashSync(userParam.password, 10);
 
-        db.fs.insert(
+        db.functions.insert(
             usecase,
             function (err, doc) {
                 if (err) deferred.reject(err.name + ': ' + err.message);
@@ -159,7 +169,7 @@ function update(_id, userParam) {
     //     set.hash = bcrypt.hashSync(userParam.password, 10);
     // }
 
-    db.fs.update(
+    db.functions.update(
         { _id: mongo.helper.toObjectID(_id) },
         { $set: set },
         function (err, doc) {
@@ -174,7 +184,7 @@ function update(_id, userParam) {
 function _delete(_id) {
     var deferred = Q.defer();
 
-    db.fs.remove(
+    db.functions.remove(
         { _id: mongo.helper.toObjectID(_id) },
         function (err) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -191,7 +201,7 @@ function _deleteAllUseCases(userid) {
 
     console.log("deleting functionspez from db level by user " + userid);
 
-    db.fs.remove({},function (err) {
+    db.functions.remove({},function (err) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve();
