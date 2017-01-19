@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var Q = require('q');
 var mongo = require('mongoskin');
-var ObjectID = require('mongodb').ObjectID;
+//var ObjectID = require('mongodb').ObjectID;
 var db = mongo.db(config.connectionString, {
   native_parser: true
 });
@@ -14,6 +14,9 @@ db.bind('fs');
 
 //mongoose
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId;
+
 if (mongoose.connection.readyState != 1) // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting 
   mongoose.connect(config.connectionString);
 
@@ -56,7 +59,9 @@ function getById(_id) {
 
   console.log("getting usecase from DB with ID: " + _id);
 
-  models.UseCases.findOne({ "_id": _id }).populate('_base linkedFS').exec(function (err, usecases) {
+  models.UseCases.findOne({
+    "_id": _id
+  }).populate('_base linkedFS').exec(function (err, usecases) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
@@ -112,21 +117,33 @@ function getFSs(_id) {
   return deferred.promise;
 }
 
-function duplicate(usecase) {
+function duplicate(_id) {
   var deferred = Q.defer();
 
-  usecase._id = new ObjectId();
+  models.UseCases.findById(_id, function (err, uc) {
+    if (err)
+      deferred.reject(err.name + ': ' + err.message);
 
-  db.usecases.insert(
-    usecase,
-    function (err, doc) {
-      if (err) {
-        deferred.reject(err.name + ': ' + err.message);
+    uc._id = mongoose.Types.ObjectId();
+    //maybe increasing version shld be done somewhere else
+    if (!isNaN(uc.version)) {
+      try {
+        uc.version = uc.version + 1;
+      } catch (err2) {
+        console.log(err2);
       }
+    }
+    uc.isNew = true;
+    uc.save(function (err, newUseCase) {
+      if (err)
+        deferred.reject(err.name + ': ' + err.message);
 
-      deferred.resolve(usecase);
-      //break;
+      deferred.resolve(newUseCase);
     });
+  });
+
+  return deferred.promise;
+
 }
 
 function create(userParam) {
@@ -134,8 +151,8 @@ function create(userParam) {
 
   // validation
   models.UseCases.findOne({
-    usecasename: userParam.usecasename
-  },
+      usecasename: userParam.usecasename
+    },
     function (err, usecase) {
       if (err) deferred.reject(err.name + ': ' + err.message);
 
@@ -152,7 +169,9 @@ function create(userParam) {
 
     console.log("in createUseCase");
 
-    models.Bases.find({}).sort({ 'hid': -1 }).limit(1).lean().exec(function (err, cursor) {
+    models.Bases.find({}).sort({
+      'hid': -1
+    }).limit(1).lean().exec(function (err, cursor) {
       var myFirstDocument = cursor[0]; //cursor.hasNext() ? cursor.next() : null;
 
       //if we only need the HID then we can search directly in Bases
@@ -196,8 +215,7 @@ function create(userParam) {
           if (err) {
             deferred.reject(err.name + ': ' + err.message);
             return deferred.promise;
-          }
-          else {
+          } else {
             deferred.resolve(newUseCase);
           }
         });

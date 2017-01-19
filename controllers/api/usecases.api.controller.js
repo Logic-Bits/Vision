@@ -10,7 +10,7 @@ router.put('/:_id', updateUseCase);
 router.get('/:_id', getUseCase);
 router.get('/', getUseCases);
 router.get('/FunctionSpezifications/:_id', getFunctionSpezifications);
-router.get('/duplicate', duplicateUseCase);
+router.get('/duplicate/:_id', duplicateUseCase);
 router.delete('/:_id', deleteUseCase);
 router.delete('/deleteall/:_id', deleteAllUseCases);
 
@@ -42,23 +42,22 @@ function getUseCase(req, res) {
 
 function getUseCases(req, res) {
 
+    ucService.getAll()
+        .then(function (uc) {
 
-  ucService.getAll()
-      .then(function (uc) {
+            if (uc) {
+                //console.log("result ok");
+                res.send(uc);
+            } else {
+                //console.log("result not ok");
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
 
-          if (uc) {
-              //console.log("result ok");
-              res.send(uc);
-          } else {
-              //console.log("result not ok");
-              res.sendStatus(404);
-          }
-      })
-      .catch(function (err) {
-
-          console.log("catch ");
-          res.status(400).send(err);
-      });
+            console.log("catch ");
+            res.status(400).send(err);
+        });
 }
 
 function getFunctionSpezifications(req, res) {
@@ -93,17 +92,14 @@ function deleteUseCase(req, res) {
         });
 }
 
-function duplicateUseCase(req, res)
-{
-    ucService.duplicate(req.body).then (function (uc){
+function duplicateUseCase(req, res) {
+    ucService.duplicate(req.params._id).then(function (uc) {
 
-      if(uc)
-      {
-        res.send(uc);
-      }
-      else {
-        res.sendStatus(404);
-      }
+        if (uc) {
+            res.send(uc);
+        } else {
+            res.sendStatus(404);
+        }
     });
 }
 
@@ -139,16 +135,16 @@ function updateUseCase(req, res) {
 
 function deleteAllUseCases(req, res) {
 
-      var userId = req.user.sub;
-      var ucId = req.params._id;
+    var userId = req.user.sub;
+    var ucId = req.params._id;
 
-      console.log("User "+ userId+" deleted all Usecases");
+    console.log("User " + userId + " deleted all Usecases");
 
-      ucService.deleteAllUseCases(userId)
-          .then(function () {
-              res.sendStatus(200);
-          })
-          .catch(function (err) {
-              res.status(400).send(err);
-          });
+    ucService.deleteAllUseCases(userId)
+        .then(function () {
+            res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
 }

@@ -15,6 +15,7 @@
     vm.openCreateUseCaseModal = openCreateUseCaseModal;
     vm.openFunctionModal = openFunctionModal;
     vm.addFunctionRef = addFunctionRef;
+    vm.duplicateUseCase = duplicateUseCase;
 
     initController();
 
@@ -46,6 +47,15 @@
         .catch(function (error) {
           FlashService.Error(error);
         });
+    }
+
+    function duplicateUseCase(usecase) {
+      UseCaseService.Duplicate(usecase._id).then(function (newusecase) {
+        if (newusecase)
+          vm.usecases.push(newusecase);
+      }).catch(function (error){
+        FlashService.Error(error);
+      });
     }
 
     function createUseCase() {
@@ -87,11 +97,11 @@
 
     function deleteUseCase(usecase) {
       UseCaseService.Delete(usecase._id).then(function () {
-        FlashService.Success('Use Case deleted');
-        $('#confirm-delete').modal('hide');
-        initController();
+          FlashService.Success('Use Case deleted');
+          $('#confirm-delete').modal('hide');
+          initController();
 
-      })
+        })
         .catch(function (error) {
           FlashService.Error(error);
         });
@@ -110,7 +120,6 @@
           console.log("found functions: " + fs.length);
         }
       });
-
 
       $('#functionsmodal').modal('show');
     }
@@ -139,8 +148,7 @@
             FlashService.Error(error);
             alert(error);
           });
-      }
-      else {
+      } else {
         alert("already in list");
       }
     }
@@ -156,7 +164,5 @@
         vm.usecase.functions = functions;
       });
     }
-
   }
-
 })();

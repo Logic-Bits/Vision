@@ -60,8 +60,8 @@
         }
 
 
-        function Duplicate(usecase) {
-            return $http.put('/api/usecases/duplicate', usecase).then(handleSuccess, handleError);
+        function Duplicate(usecaseId) {
+            return $http.get('/api/usecases/duplicate/' + usecaseId).then(handleSuccess, handleError);
         }
 
 
