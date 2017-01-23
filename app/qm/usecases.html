@@ -74,7 +74,7 @@
       <div id="usecaseDetailsCard">
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
-            <h3 class="panel-title pull-left">UC Details [<b>UC-{{vm.usecase.hid}}</b>]
+            <h3 class="panel-title pull-left">Details [<b>UC-{{vm.usecase._base.hid}}</b>]
               <!-- <sup>v.{{vm.usecase.version}}</sup>--></h3>
             <div class="btn-group pull-right visible-xs">
               <a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
@@ -85,12 +85,11 @@
             <div style="margin-left: 5px;" class="btn-group pull-right">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Version 3 <span class="caret"></button>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="#"><span class="" />Version 1</a>
+
+                <li ng-repeat="otherVersion in vm.usecase.otherVersions">
+                  <a href="#">Version {{otherVersion.version}}</a>
                 </li>
-                <li>
-                  <a href="#"><span class="" />Version 2</a>
-                </li>
+                
                 <li role="separator" class="divider"></li>
                 <li>
                   <a class="btn btn-link btn-xs pull-left" ng-click="vm.duplicateUseCase(vm.usecase)">

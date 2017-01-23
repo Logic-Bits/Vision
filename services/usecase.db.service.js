@@ -61,16 +61,43 @@ function getById(_id) {
 
   models.UseCases.findOne({
     "_id": _id
-  }).populate('_base linkedFS').exec(function (err, usecases) {
+  }).populate('_base linkedFS').exec(function (err, usecase) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
-    if (usecases) {
-      deferred.resolve(usecases);
-      //return entries;
-    } else {
-      deferred.resolve();
-    }
+    //find other versions and ref them // usecase.otherVersions
+
+    models.UseCases.find({
+      _base: usecase._base
+    }).lean().exec(function (err, otherUCsFull) {
+
+      var otherUCs = [];
+
+      if (otherUCsFull) {
+
+        for (var i = 0; i < otherUCsFull.length; i++) {
+
+          if (otherUCsFull[i]._id.equals(usecase._id))
+            continue;
+
+          var tmp = {
+            _id: otherUCsFull[i]._id,
+            version: otherUCsFull[i].version
+          };
+          otherUCs.push(tmp);
+        }
+
+        usecase.otherUCs = otherUCs;
+      }
+
+      if (usecase) {
+        deferred.resolve(usecase);
+        //return entries;
+      } else {
+        deferred.resolve();
+      }
+
+    });
   });
   return deferred.promise;
 }
@@ -238,7 +265,19 @@ function update(_id, userParam) {
     uc.description = userParam.description;
     uc.categories = userParam.categories;
     uc.linkedFS = userParam.linkedFS;
-    uc.tags = userParam.tags;
+    //uc.tags = userParam.tags;
+
+    var tags = [];
+
+    for (var key in userParam.tags) {
+      if (userParam.tags.hasOwnProperty(key)) {
+        var element = userParam.tags[key];
+        tags.push(element['text']);
+      }
+    }
+
+    uc.tags = tags,
+
     uc.trackingcodes = userParam.trackingcodes;
 
     uc.save(function (err, updatedUC) {

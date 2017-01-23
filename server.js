@@ -46,7 +46,8 @@ app.use('/api/users', require('./controllers/api/users.api.controller'));
 app.use('/api/usecases', require('./controllers/api/usecases.api.controller'));
 app.use('/api/functions', require('./controllers/api/function.api.controller'));
 
-app.use('/app/js', express.static('./node_modules/ng-content-editable/dist'));
+app.use('/app/ng-content-editable', express.static('./node_modules/ng-content-editable/dist'));
+app.use('/app/js', express.static('./app/app-content/js'));
 app.use('/app/tagsinput', express.static('./node_modules/ng-tags-input/build'));
 
 // make '/app' default route
