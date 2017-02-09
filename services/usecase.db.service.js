@@ -112,7 +112,7 @@ function getById(_id) {
 
   models.UseCases.findOne({
     "_id": _id
-  }).populate('_base linkedFS').exec(function (err, usecase) {
+  }).populate('_base linkedFS').lean().exec(function (err, usecase) {
 
     if (err) deferred.reject(err.name + ': ' + err.message);
 
