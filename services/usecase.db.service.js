@@ -40,16 +40,67 @@ function getAll() {
 
   var deferred = Q.defer();
 
-  models.UseCases.find({}).populate('_base').lean().exec(function (err, usecases) {
 
-    if (err) deferred.reject(err.name + ': ' + err.message);
 
-    if (usecases) {
-      deferred.resolve(usecases);
+  //http://stackoverflow.com/questions/21739827/mongoose-how-to-query-within-date-range-and-extract-highest-values-for-each-day
+  //https://www.mongodb.com/presentations/aggregation-framework-0?jmp=docs&_ga=1.241480898.1132359820.1481563559
+
+
+  models.UseCases.aggregate([{
+    $group: {
+      _id: "$_base",
+      highestVersion: {
+        $max: "$version"
+      }
+    }
+
+
+  }]).then(function (result) {
+
+    console.log("got usecases: " + result.length);
+
+    var documentids = [];
+
+    if (result) {
+
+      for (var i = 0; i < result.length; i++)
+        documentids.push({
+          _base: result[i]._id,
+          version: result[i].highestVersion
+        }); //_id is baseID and highestVersion the version
+
+      //now populate
+      models.UseCases.find({
+        $or: documentids
+      }).populate('_base').lean().exec(function (err, usecases) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        if (usecases) {
+          deferred.resolve(usecases);
+        } else {
+          deferred.resolve();
+        }
+
+      });
+
+
+      //deferred.resolve(result);
     } else {
       deferred.resolve();
     }
+
   });
+
+  // models.UseCases.find({}).populate('_base').lean().exec(function (err, usecases) {
+
+  //   if (err) deferred.reject(err.name + ': ' + err.message);
+
+  //   if (usecases) {
+  //     deferred.resolve(usecases);
+  //   } else {
+  //     deferred.resolve();
+  //   }
+  // });
 
   return deferred.promise;
 }
@@ -170,7 +221,6 @@ function duplicate(_id) {
   });
 
   return deferred.promise;
-
 }
 
 function create(userParam) {
@@ -278,7 +328,7 @@ function update(_id, userParam) {
 
     uc.tags = tags,
 
-    uc.trackingcodes = userParam.trackingcodes;
+      uc.trackingcodes = userParam.trackingcodes;
 
     uc.save(function (err, updatedUC) {
       if (err)
