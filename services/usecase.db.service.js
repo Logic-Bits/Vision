@@ -282,8 +282,19 @@ function create(userParam) {
         //newUseCase.hid = nextHID;
         newUseCase.usecasename = userParam.usecasename;
         newUseCase.description = userParam.description;
-        newUseCase.tags = userParam.tags;
         newUseCase.trackingcodes = userParam.trackingcodes;
+
+
+        var tags = [];
+
+        for (var key in userParam.tags) {
+          if (userParam.tags.hasOwnProperty(key)) {
+            var element = userParam.tags[key];
+            tags.push(element['text']);
+          }
+        }
+
+        newUseCase.tags = tags;
 
         if (isNaN(newUseCase.version))
           newUseCase.version = '1';
@@ -326,9 +337,9 @@ function update(_id, userParam) {
       }
     }
 
-    uc.tags = tags,
+    uc.tags = tags;
 
-      uc.trackingcodes = userParam.trackingcodes;
+    uc.trackingcodes = userParam.trackingcodes;
 
     uc.save(function (err, updatedUC) {
       if (err)
@@ -342,11 +353,44 @@ function update(_id, userParam) {
 
 function _delete(_id) {
   var deferred = Q.defer();
-  models.UseCases.findById(_id).remove().exec(function (err, data) {
+
+  models.UseCases.findById(_id).exec(function (err, data) {
     if (err)
       deferred.reject(err.name + ': ' + err.message);
-    deferred.resolve();
+
+    var baseId = data._base;
+
+    //query if there are any other usecases with that baseid, if not then delete the base too
+
+    models.UseCases.find({
+      _base: baseId
+    }, function (err, otherUCs) {
+      if (err)
+        deferred.reject(err.name + ': ' + err.message);
+
+      if (otherUCs.length < 2) //not more than the one we are going to delete
+      {
+        models.Bases.findById(baseId).remove().exec(function (err) {
+          if (err)
+            deferred.reject(err.name + ': ' + err.message);
+        });
+      }
+      models.UseCases.findById(_id).remove().exec(function (err, data) {
+        if (err)
+          deferred.reject(err.name + ': ' + err.message);
+        deferred.resolve();
+      });
+
+
+    });
   });
+
+
+  // models.UseCases.findById(_id).remove().exec(function (err, data) {
+  //   if (err)
+  //     deferred.reject(err.name + ': ' + err.message);
+  //   deferred.resolve();
+  // });
 
   return deferred.promise;
 }
@@ -358,8 +402,14 @@ function _deleteAllUseCases(userid) {
   console.log("deleting usecase from db level by user: " + userid);
 
   models.UseCases.remove({}, function (err) {
-    if (err) deferred.reject(err.name + ': ' + err.message);
-    deferred.resolve();
+    console.log(err);
+    models.Bases.remove({}, function (err) {
+      if (err) deferred.reject(err.name + ': ' + err.message);
+      deferred.resolve();
+    });
   });
+
+  //todo delete bases
+
   return deferred.promise;
 }

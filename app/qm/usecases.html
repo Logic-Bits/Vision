@@ -132,10 +132,10 @@
               <label>Description</label>
               <h4 contenteditable ng-binding ng-model="vm.usecase.description" only-text="true" class="list-group-item-heading">{{vm.usecase.description}}</h4>
             </div>
-            <div class="list-group-item">
+            <!--<div class="list-group-item">
               <label>Category</label>
               <tags-input ng-model="vm.usecase.categories"></tags-input>
-            </div>
+            </div>-->
             <div class="list-group-item">
               <label>Tags</label>
               <tags-input ng-model="vm.usecase.tags"></tags-input>
@@ -310,8 +310,8 @@ Modals
               />
             </div>
             <div class="form-group">
-              <label for="lastName">Category</label>
-              <tags-input ng-model="vm.newusecase.categories"></tags-input>
+              <label for="lastName">Tags</label>
+              <tags-input ng-model="vm.newusecase.tags"></tags-input>
             </div>
             <!-- <div class="form-group">
                         <button class="btn btn-primary" ng-click="vm.createUseCase()">Save</button>

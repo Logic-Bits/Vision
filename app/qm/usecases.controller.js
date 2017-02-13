@@ -51,9 +51,20 @@
 
     function duplicateUseCase(usecase) {
       UseCaseService.Duplicate(usecase._id).then(function (newusecase) {
-        if (newusecase)
+        if (newusecase) {
+          
+            for (var i = 0; i < vm.usecases.length; i++) {
+            if (angular.equals(vm.usecases[i]._id, usecase._id)) {
+              vm.usecases.splice(i, 1);
+              continue;
+            }
+          }
+
           vm.usecases.push(newusecase);
-      }).catch(function (error){
+          select(newusecase);
+          FlashService.Success("New Version ("+ newusecase.version +") created!");
+        }
+      }).catch(function (error) {
         FlashService.Error(error);
       });
     }
@@ -92,6 +103,16 @@
           vm.usecase = uc;
           //getLinkedSpezifications(uc);
         }
+      });
+    }
+
+    function showUseCaseNotEditable(usecaseId) {
+      UseCaseService.GetById(usecaseId).then(function (uc) {
+
+        if (uc != null) {
+
+        }
+
       });
     }
 
