@@ -1,0 +1,81 @@
+<div id="usecaseDetailsCard">
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left">Details [<b>UC-{{vm.usecase._base.hid}}</b>]
+                <!-- <sup>v.{{vm.usecase.version}}</sup>--></h3>
+            <div class="btn-group pull-right visible-xs">
+                <a class="btn btn-primary" href="/companies/o8v9urr7vchs/edit" data-toggle="modal" data-target="#editModal">
+                    <i class="fa fa-pencil"></i>
+                    <span>Edit</span>
+                </a>
+            </div>
+            <div style="margin-left: 5px;" class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Version {{vm.usecase.version}} <span class="caret"></button>
+                <ul class="dropdown-menu">
+
+                    <li ng-repeat="otherVersion in vm.usecase.otherUCs">
+                        <a href="#">Version {{otherVersion.version}}</a>
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a class="btn btn-link btn-xs pull-left" ng-click="vm.duplicateUseCase(vm.usecase)">
+                            <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
+                            <span class="text-success"><span class="glyphicon glyphicon-plus"/> Create new Version</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div style="margin-left: 5px;" class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-inbox" /> Archive</a>
+                    </li>
+                    <li>
+                        <a ng-click="vm.duplicateUseCase(vm.usecase)"><span class="glyphicon glyphicon-open" /> Create New Version</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a class="btn btn-link btn-xs text-danger pull-left" data-toggle="modal" data-target="#confirm-delete">
+                            <!--ng-click="vm.deleteUseCase(vm.usecase)"-->
+                            <span class="text-danger"><span class="glyphicon glyphicon-trash"/> Delete</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <a class="btn btn-success pull-right hidden-xs" ng-click="vm.updateUseCase(vm.usecase)">
+                <i class="fa fa-save"></i>
+                <span>Save</span>
+            </a>
+        </div>
+        <div class="list-group">
+            <div class="list-group-item">
+                <i class="fa fa-2x fa-building-o pull-left"></i>
+                <label><b>Name</b> (Version {{vm.usecase.version}})</label>
+                <h4 contenteditable ng-binding ng-model="vm.usecase.usecasename" ng-maxlength=255 only-text="true" class="list-group-item-heading">{{vm.usecase.usecasename}}</h4>
+            </div>
+            <div class="list-group-item">
+                <label>Description</label>
+                <h4 contenteditable ng-binding ng-model="vm.usecase.description" only-text="true" class="list-group-item-heading">{{vm.usecase.description}}</h4>
+            </div>
+            <div class="list-group-item">
+                <label>Tags</label>
+                <tags-input ng-model="vm.usecase.tags"></tags-input>
+            </div>
+            <div class="list-group-item">
+                <label>ID</label>
+                <h4 class="list-group-item-heading">{{vm.usecase._id}}</h4>
+            </div>
+            <div class="list-group-item">
+                <label>Created / Modified</label>
+                <h4 class="list-group-item-heading">{{vm.usecase._base.createdate | date:'medium'}}</h4>
+                <h4 class="list-group-item-heading">{{vm.usecase._base.lastmodified | date:'medium'}}</h4>
+                <!--<h4 class="list-group-item-heading">{{vm.usecase._base.lastmodified}}</h4>-->
+            </div>
+        </div>
+        <div class="panel-footer">
+            <small class="pull-center"><a href="#">View all details!</a></small>
+        </div>
+    </div>
+</div>
